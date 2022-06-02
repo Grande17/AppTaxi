@@ -14,6 +14,7 @@ import java.util.List;
 
 @Entity(name = "TAXI_ORDERS")
 @NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
 @Table
@@ -58,4 +59,5 @@ public class OrderTaxi {
         this.customer = customer;
         this.driver = driver;
     }
+
 }

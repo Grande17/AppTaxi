@@ -37,11 +37,16 @@ public class CustomerController {
 
     @GetMapping(value = "{id}")
     public ResponseEntity<CustomerDto> getCustomerById(@PathVariable Integer id)throws CustomerNotFoundException{
-        return ResponseEntity.ok(customerMapper.mapToCustomerDto(customerService.findCustomerById(id).orElseThrow(CustomerNotFoundException::new)));
+        return ResponseEntity.ok(customerMapper.mapToCustomerDto(customerService.findCustomerById(id)));
     }
     @GetMapping
     public ResponseEntity<List<CustomerDto>> getAll(){
         List<Customer> findAll = customerService.findAll();
         return ResponseEntity.ok(customerMapper.mapToCustomerDtoList(findAll));
+    }
+    @DeleteMapping(value = "{id}")
+    public ResponseEntity<Void> deleteCustomer(@PathVariable Integer id){
+        customerService.deleteCustomerById(id);
+        return ResponseEntity.ok().build();
     }
 }

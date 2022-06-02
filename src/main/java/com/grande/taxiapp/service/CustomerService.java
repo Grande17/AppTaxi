@@ -1,6 +1,7 @@
 package com.grande.taxiapp.service;
 
 import com.grande.taxiapp.domain.Customer;
+import com.grande.taxiapp.exceptions.CustomerNotFoundException;
 import com.grande.taxiapp.repository.CustomerRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,10 +22,11 @@ public class CustomerService {
         customerRepository.deleteById(id);
     }
 
-    public Optional<Customer> findCustomerById(Integer id){
-        return customerRepository.findById(id);
+    public Customer findCustomerById(Integer id) throws CustomerNotFoundException {
+        return customerRepository.findById(id).orElseThrow(CustomerNotFoundException::new);
     }
     public List<Customer> findAll(){
         return customerRepository.findAll();
     }
+
 }

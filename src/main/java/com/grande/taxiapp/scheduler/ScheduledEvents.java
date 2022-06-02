@@ -2,9 +2,9 @@ package com.grande.taxiapp.scheduler;
 
 import com.grande.taxiapp.domain.CurrencyRates;
 import com.grande.taxiapp.domain.FuelPrice;
-import com.grande.taxiapp.domain.dto.CurrencyDto;
-import com.grande.taxiapp.domain.dto.FuelPriceDto;
-import com.grande.taxiapp.domain.dto.FuelPriceListDto;
+import com.grande.taxiapp.foreignAPI.exchangeRates.CurrencyDto;
+import com.grande.taxiapp.foreignAPI.fuelPrice.FuelPriceDto;
+import com.grande.taxiapp.foreignAPI.fuelPrice.FuelPriceListDto;
 import com.grande.taxiapp.foreignAPI.exchangeRates.CurrencyExchangeClient;
 import com.grande.taxiapp.foreignAPI.exchangeRates.CurrencyRepository;
 import com.grande.taxiapp.foreignAPI.fuelPrice.FuelPriceClient;
@@ -33,7 +33,7 @@ public class ScheduledEvents {
     @Autowired
     private FuelPriceRepository fuelPriceRepository;
 
-    @Scheduled(cron = "*/15 * * * * * ")
+    @Scheduled(cron = "1 * * * * * ")
     public void updateCurrencyRate(){
         CurrencyDto currencyDto = currencyExchangeClient.getCurrentCurrencyRate();
         BigDecimal value = currencyDto.getRates().get(0).getValue();
@@ -50,7 +50,7 @@ public class ScheduledEvents {
         }
     }
 
-    //@Scheduled(cron = "*/30 * * * * *")
+    @Scheduled(cron = "15 * * * * *")
     public void updateFuelPrice(){
         FuelPriceListDto fuelPriceListDto = fuelPriceClient.getFuelPrice();
         FuelPriceDto fuelPriceDto = fuelPriceListDto.getList().stream()

@@ -3,7 +3,9 @@ package com.grande.taxiapp.controllers;
 
 import com.grande.taxiapp.domain.Driver;
 import com.grande.taxiapp.domain.dto.DriverDto;
+import com.grande.taxiapp.exceptions.CarWithGivenPlatesException;
 import com.grande.taxiapp.exceptions.DriverNotFoundException;
+import com.grande.taxiapp.exceptions.EmailException;
 import com.grande.taxiapp.mappers.DriverMapper;
 import com.grande.taxiapp.service.DriverService;
 import lombok.RequiredArgsConstructor;
@@ -22,9 +24,8 @@ public class DriverController {
     private final DriverService driverService;
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> createNewDriverAcc(@RequestBody DriverDto driverDto){
-        Driver driver = driverMapper.mapToDriver(driverDto);
-        driverService.saveDriver(driver);
+    public ResponseEntity<Void> createNewDriverAcc(@RequestBody DriverDto driverDto) throws EmailException, CarWithGivenPlatesException {
+        driverService.saveDriver(driverDto);
         return ResponseEntity.ok().build();
     }
     @GetMapping
@@ -38,8 +39,12 @@ public class DriverController {
     }
     @PutMapping
     public ResponseEntity<Void> updateDriver(@RequestBody DriverDto driverDto){
-        Driver driver = driverMapper.mapToDriver(driverDto);
-        driverService.saveDriver(driver);
+        driverService.updateDriver(driverDto);
+        return ResponseEntity.ok().build();
+    }
+    @DeleteMapping(value = "{id}")
+    public ResponseEntity<Void> deleteDriverAcc(@PathVariable Integer id){
+        driverService.deleteDriverById(id);
         return ResponseEntity.ok().build();
     }
 }

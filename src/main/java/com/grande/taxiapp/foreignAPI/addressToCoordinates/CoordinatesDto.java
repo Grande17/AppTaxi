@@ -1,4 +1,4 @@
-package com.grande.taxiapp.domain.dto;
+package com.grande.taxiapp.foreignAPI.addressToCoordinates;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -12,8 +12,14 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class RatesDto {
+public class CoordinatesDto {
 
-    @JsonProperty("mid")
-    private BigDecimal value;
+    @JsonProperty("latitude")
+    private BigDecimal latitude;
+
+    @JsonProperty("longitude")
+    private BigDecimal longitude;
+
+    @JsonProperty("address")
+    private String address;
 }

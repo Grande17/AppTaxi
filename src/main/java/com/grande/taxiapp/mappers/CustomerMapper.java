@@ -16,6 +16,7 @@ public class CustomerMapper {
                 customerDto.getName(),
                 customerDto.getSurname(),
                 customerDto.getUsername(),
+                customerDto.getPassword(),
                 customerDto.getPhoneNumber(),
                 customerDto.getEmail());
     }
@@ -25,6 +26,7 @@ public class CustomerMapper {
                 customer.getName(),
                 customer.getSurname(),
                 customer.getUsername(),
+                customer.getPassword(),
                 customer.getPhoneNumber(),
                 customer.getEmail());
     }
