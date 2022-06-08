@@ -60,7 +60,7 @@ public class OrderFacade {
                 List<Long> distance = data.getDistance().stream().findFirst().get();
 
                 List<Long> duration = data.getDurationInSeconds().stream().findFirst().get();
-                BigDecimal tripCost = orderTaxiService.countTripPrice(distance.get(0) / 1000)
+                BigDecimal tripCost = (orderTaxiService.countTripPrice(distance.get(0) / 1000)).multiply(BigDecimal.valueOf(customer.get().getDiscount()))
                         .setScale(2, RoundingMode.CEILING);
                 LocalTime time = LocalTime.ofSecondOfDay(duration.get(0));
 
@@ -90,6 +90,9 @@ public class OrderFacade {
                                     "Duration: "+created.getEstimatedTime().toString()+"\n" +
                                     "Your driver will be: "+created.getDriver().getName()+"\n" +
                                     "WE WISH YOU A PLEASANT TRIP"));
+                    customerRepository.save(new Customer(customer.get().getId(),
+                            customer.get().getName(),customer.get().getSurname(),customer.get().getUsername(),
+                            customer.get().getPassword(),customer.get().getPhoneNumber(),customer.get().getEmail(),1.0));
 
                     return created;
                 }

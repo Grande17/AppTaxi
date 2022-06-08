@@ -25,6 +25,7 @@ public interface OrderTaxiRepository extends JpaRepository<OrderTaxi, Integer> {
     List<OrderTaxi> findByStatus(OrderTaxiStatus status);
 
     List<OrderTaxi> findByCustomerId(Integer customerID);
+    List<OrderTaxi> findOrderTaxiByCustomerIdAndStatus(Integer id, OrderTaxiStatus status);
 
     List<OrderTaxi> findByDriverId(Integer id);
 

@@ -7,13 +7,16 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
+import java.util.function.BiConsumer;
 
 @Service
 @AllArgsConstructor
 public class CustomerService {
 
     private final CustomerRepository customerRepository;
+    private final Random random = new Random();
 
     public Customer saveCustomer(Customer customer){
         return customerRepository.save(customer);
@@ -28,5 +31,6 @@ public class CustomerService {
     public List<Customer> findAll(){
         return customerRepository.findAll();
     }
+
 
 }

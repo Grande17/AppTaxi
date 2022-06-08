@@ -38,7 +38,7 @@ public class OrderTaxiController {
         OrderTaxi order = facade.createOrder(orderTaxiDto);
         return orderTaxiMapper.mapToOrderTaxiFullDto(order);
     }
-    @PutMapping(value = "{id}")
+    @PutMapping(value = "cancel/{id}")
     public ResponseEntity<Void> cancel (@PathVariable Integer id){
         orderTaxiService.cancelOrderFouCustomersOnly(id);
         return ResponseEntity.ok().build();
@@ -48,9 +48,11 @@ public class OrderTaxiController {
         List<OrderTaxi> list = orderTaxiService.findByCustomerId(id);
         return ResponseEntity.ok(orderTaxiMapper.mapToOrderTaxiFullDtoList(list));
     }
-    @GetMapping("/get")
-    public OrderTaxiDto get() {
-        return new OrderTaxiDto(1,"Pickup", "drop",new Customer(1,"xx","xx","xx","xx","xx","xx"));
+    @PutMapping(value = "{orderId}/{status}")
+    public ResponseEntity<Void> changeOrderStatus(@PathVariable Integer orderId, @PathVariable String status){
+        orderTaxiService.changeStatus(orderId,status);
+        return ResponseEntity.ok().build();
+
     }
 
 }

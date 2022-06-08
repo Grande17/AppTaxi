@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 
 @Entity(name = "CUSTOMERS")
 @NoArgsConstructor
@@ -40,7 +41,8 @@ public class Customer {
     @NotNull
     @Column(name = "EMAIL")
     private String email;
-
+    @Column(name = "DISCOUNT")
+    private Double discount = 1.0;
 
     public static class Builder{
         private Integer id;
@@ -50,6 +52,7 @@ public class Customer {
         private String password;
         private String phoneNumber;
         private String email;
+        private Double discount = 1.0;
 
         public Builder id(Integer id){
             this.id = id;
@@ -80,10 +83,19 @@ public class Customer {
             return this;
         }
         public Customer build(){
-            return new Customer(id, name,surname,username,password,phoneNumber,email);
+            return new Customer(id, name,surname,username,password,phoneNumber,email,discount);
         }
 
     }
 
-
+    public Customer(Integer id, String name, String surname, String username, String password, String phoneNumber, String email) {
+        this.id = id;
+        this.name = name;
+        this.surname = surname;
+        this.username = username;
+        this.password = password;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+        this.discount = 1.0;
+    }
 }

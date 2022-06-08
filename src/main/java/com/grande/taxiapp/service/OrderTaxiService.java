@@ -85,6 +85,21 @@ public class OrderTaxiService {
                 driver);
         driverRepository.save(driver);
         orderTaxiRepository.save(cancelled);
-
+    }
+    public void changeStatus(Integer id, String status){
+        Optional<OrderTaxi> byId = orderTaxiRepository.findById(id);
+        if (status.equalsIgnoreCase("inProgress")){
+            orderTaxiRepository.save(changeStatus(byId.get(),OrderTaxiStatus.IN_PROGRESS));
+        }if (status.equalsIgnoreCase("finished")){
+            orderTaxiRepository.save(changeStatus(byId.get(),OrderTaxiStatus.FINISHED));
+            driverRepository.save(changeDriverStatus(byId.get().getDriver(), DriverStatus.ACTIVE));
+        }
+    }
+    private OrderTaxi changeStatus(OrderTaxi orderTaxi, OrderTaxiStatus status){
+        return new OrderTaxi(orderTaxi.getId(), orderTaxi.getPickUpPlace(), orderTaxi.getDropPlace(),orderTaxi.getEstimatedCost(),orderTaxi.getEstimatedTime(),
+                status,orderTaxi.getCustomer(),orderTaxi.getDriver());
+    }
+    private Driver changeDriverStatus(Driver driver,DriverStatus status){
+        return new Driver(driver.getId(), driver.getName(), driver.getSurname(), driver.getPhoneNumber(), driver.getEmail(),status,driver.getCar() );
     }
 }
