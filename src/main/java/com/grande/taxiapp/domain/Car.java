@@ -7,6 +7,9 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import javax.persistence.criteria.CriteriaBuilder;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 @Entity(name = "CARS")
 @NoArgsConstructor
@@ -19,12 +22,16 @@ public class Car {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
+    @NotNull
     @Column(name = "BRAND")
     private String carBrand;
+    @NotNull
     @Column(name = "MODEL")
     private String model;
+    @NotNull
     @Column(name = "TYPE")
     private String bodyType;
+    @NotNull
     @Column(name = "PLATE_NUMBER")
     private String licensePlateNumber;
 
@@ -35,4 +42,5 @@ public class Car {
         this.bodyType = bodyType;
         this.licensePlateNumber = licensePlateNumber;
     }
+
 }

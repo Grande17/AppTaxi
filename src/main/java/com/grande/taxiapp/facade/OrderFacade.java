@@ -92,7 +92,7 @@ public class OrderFacade {
                                     "WE WISH YOU A PLEASANT TRIP"));
                     customerRepository.save(new Customer(customer.get().getId(),
                             customer.get().getName(),customer.get().getSurname(),customer.get().getUsername(),
-                            customer.get().getPassword(),customer.get().getPhoneNumber(),customer.get().getEmail(),1.0));
+                            customer.get().getPhoneNumber(),customer.get().getEmail(),1.0));
 
                     return created;
                 }

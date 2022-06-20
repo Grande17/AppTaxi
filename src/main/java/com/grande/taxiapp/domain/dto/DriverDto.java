@@ -1,6 +1,7 @@
 package com.grande.taxiapp.domain.dto;
 
 import com.grande.taxiapp.domain.Car;
+import com.grande.taxiapp.enums.DriverStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,5 +16,6 @@ public class DriverDto {
     private String surname;
     private String phoneNumber;
     private String email;
+    private DriverStatus status;
     private Car car;
 }

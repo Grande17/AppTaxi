@@ -15,11 +15,9 @@ public interface DriverRepository extends JpaRepository<Driver, Integer> {
 
     List<Driver> findAll();
     Optional<Driver> findById(Integer id);
-    List<Driver> findByName(String name);
-    List<Driver> findBySurname(String surname);
-    Optional<Driver> findByPhoneNumber(String phoneNumber);
+    List<Driver> findBySurnameContains(String surname);
     Optional<Driver> findByEmail(String email);
-    Optional<Driver> findByCarId(String carId);
+    List<Driver> findByEmailContains(String email);
     List<Driver> findByStatus(DriverStatus status);
     Driver save(Driver driver);
     void deleteById(Integer id);

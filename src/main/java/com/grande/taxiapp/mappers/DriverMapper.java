@@ -27,6 +27,7 @@ public class DriverMapper {
                 driver.getSurname(),
                 driver.getPhoneNumber(),
                 driver.getEmail(),
+                driver.getStatus(),
                 driver.getCar());
     }
 

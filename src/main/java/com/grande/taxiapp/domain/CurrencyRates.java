@@ -21,19 +21,13 @@ public class CurrencyRates {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     private String currency;
-    private BigDecimal value;
+    private BigDecimal price;
     private LocalDateTime lastUpdate;
 
-    public CurrencyRates(String currency, BigDecimal value) {
+    public CurrencyRates(String currency, BigDecimal price) {
         this.currency = currency;
-        this.value = value;
+        this.price = price;
         this.lastUpdate = LocalDateTime.now();
     }
 
-    public CurrencyRates(Integer id, String currency, BigDecimal value) {
-        this.id = id;
-        this.currency = currency;
-        this.value = value;
-        this.lastUpdate = lastUpdate;
-    }
 }

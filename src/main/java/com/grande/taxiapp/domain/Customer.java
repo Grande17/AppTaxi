@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import java.math.BigDecimal;
 
 @Entity(name = "CUSTOMERS")
@@ -32,9 +33,6 @@ public class Customer {
     @NotNull
     @Column(name = "LOGIN")
     private String username;
-    @NotNull
-    @Column(name = "PASSWORD")
-    private String password;
     @Nullable
     @Column(name = "PHONE_NUMBER")
     private String phoneNumber;
@@ -49,7 +47,6 @@ public class Customer {
         private String name;
         private String surname;
         private String username;
-        private String password;
         private String phoneNumber;
         private String email;
         private Double discount = 1.0;
@@ -70,10 +67,7 @@ public class Customer {
             this.username = username;
             return this;
         }
-        public Builder password(String password){
-            this.password = password;
-            return this;
-        }
+
         public Builder phoneNumber(String phoneNumber){
             this.phoneNumber = phoneNumber;
             return this;
@@ -83,17 +77,24 @@ public class Customer {
             return this;
         }
         public Customer build(){
-            return new Customer(id, name,surname,username,password,phoneNumber,email,discount);
+            return new Customer(id, name,surname,username,phoneNumber,email,discount);
         }
 
     }
 
-    public Customer(Integer id, String name, String surname, String username, String password, String phoneNumber, String email) {
+    public Customer(Integer id, String name, String surname, String username, String phoneNumber, String email) {
         this.id = id;
         this.name = name;
         this.surname = surname;
         this.username = username;
-        this.password = password;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+        this.discount = 1.0;
+    }
+    public Customer(String name, String surname, String username, String phoneNumber, String email) {
+        this.name = name;
+        this.surname = surname;
+        this.username = username;
         this.phoneNumber = phoneNumber;
         this.email = email;
         this.discount = 1.0;

@@ -18,14 +18,11 @@ public interface OrderTaxiRepository extends JpaRepository<OrderTaxi, Integer> {
 
     Optional<OrderTaxi> findById(Integer id);
 
-    List<OrderTaxi> findByPickUpPlaceContains(String pickupPlace);
 
-    List<OrderTaxi> findByDropPlaceContains(String dropPlace);
 
     List<OrderTaxi> findByStatus(OrderTaxiStatus status);
 
     List<OrderTaxi> findByCustomerId(Integer customerID);
-    List<OrderTaxi> findOrderTaxiByCustomerIdAndStatus(Integer id, OrderTaxiStatus status);
 
     List<OrderTaxi> findByDriverId(Integer id);
 

@@ -9,13 +9,16 @@ import com.grande.taxiapp.service.CarService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
 @RequestMapping("/v1/cars")
 @RequiredArgsConstructor
+@Validated
 public class CarController {
 
     private final CarService carService;
@@ -23,13 +26,8 @@ public class CarController {
 
 
     @PutMapping
-    public ResponseEntity<Void> updateCar(@RequestBody CarDto carDto){
+    public ResponseEntity<Void> updateCar(@RequestBody @Valid CarDto carDto){
         carService.updateCar(carDto);
-        return ResponseEntity.ok().build();
-    }
-    @DeleteMapping(value = "{id}")
-    public ResponseEntity<Void> deleteById(@PathVariable Integer id){
-        carService.deleteById(id);
         return ResponseEntity.ok().build();
     }
     @GetMapping
@@ -37,10 +35,10 @@ public class CarController {
         List<Car> all = carService.findAll();
         return ResponseEntity.ok(carMapper.mapToCarDtoList(all));
     }
-    @GetMapping(value = "{platesNumber}")
-    public ResponseEntity<CarDto> getCarByPlates(@PathVariable String platesNumber) throws CarNotFoundException {
-        Car car = carService.findByPlates(platesNumber);
-        return ResponseEntity.ok(carMapper.mapToCarDto(car));
+    @GetMapping(value = "/plates/{platesNumber}")
+    public ResponseEntity<List<CarDto>> getCarByPlates(@PathVariable String platesNumber){
+        List<Car> car = carService.findByPlatesContains(platesNumber);
+        return ResponseEntity.ok(carMapper.mapToCarDtoList(car));
     }
     @GetMapping(value = "{id}")
     public ResponseEntity<CarDto> findCarById(@PathVariable Integer id) throws CarNotFoundException {

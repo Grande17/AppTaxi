@@ -14,25 +14,22 @@ import com.grande.taxiapp.foreignAPI.fuelPrice.FuelPriceClient;
 import com.grande.taxiapp.foreignAPI.fuelPrice.FuelPriceRepository;
 import com.grande.taxiapp.repository.CustomerRepository;
 import com.grande.taxiapp.repository.OrderTaxiRepository;
-import com.grande.taxiapp.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
-import java.util.concurrent.ConcurrentMap;
-import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
 @Component
 @Transactional
-public class ScheduledEvents {
+public class ScheduledEvents implements CommandLineRunner {
     public static final String POLAND = "Poland";
     public static final String EURO = "euro";
 
@@ -48,11 +45,9 @@ public class ScheduledEvents {
     private OrderTaxiRepository orderTaxiRepository;
     @Autowired
     private CustomerRepository customerRepository;
-    @Autowired
-    private CustomerService customerService;
     private Random random = new Random();
 
-    @Scheduled(cron = "1 * * * * * ")
+    @Scheduled(cron = "* 1 * * * * ")
     public void updateCurrencyRate() {
         CurrencyDto currencyDto = currencyExchangeClient.getCurrentCurrencyRate();
         BigDecimal value = currencyDto.getRates().get(0).getValue();
@@ -69,7 +64,7 @@ public class ScheduledEvents {
         }
     }
 
-    @Scheduled(cron = "15 * * * * *")
+    @Scheduled(cron = "* 1 * * * *")
     public void updateFuelPrice() {
         FuelPriceListDto fuelPriceListDto = fuelPriceClient.getFuelPrice();
         FuelPriceDto fuelPriceDto = fuelPriceListDto.getList().stream()
@@ -94,7 +89,7 @@ public class ScheduledEvents {
         }
     }
 
-   // @Scheduled(cron = "* 1 * * * * ")
+    @Scheduled(cron = "* 1 * * * * ")
     public void updateBonus(){
         Map<Customer, Long> collect = orderTaxiRepository.findAll().stream().filter(x -> x.getStatus().equals(OrderTaxiStatus.FINISHED))
                 .collect(Collectors.groupingBy(OrderTaxi::getCustomer, Collectors.counting()));
@@ -102,7 +97,7 @@ public class ScheduledEvents {
             if (randomizer()) {
                 customerRepository.save(new Customer(x.getKey().getId(),
                         x.getKey().getName(), x.getKey().getSurname(), x.getKey().getSurname(),
-                        x.getKey().getPassword(), x.getKey().getPhoneNumber(), x.getKey().getEmail(), discount()));
+                        x.getKey().getPhoneNumber(), x.getKey().getEmail(), discount()));
             }
         }
     }
@@ -114,5 +109,20 @@ public class ScheduledEvents {
         int i = random.nextInt(65,95);
         return (double) i/100;
 
+    }
+
+    @Override
+    public void run(String... args) throws Exception {
+        if (currencyRepository.findAll().isEmpty()){
+            currencyRepository.save(
+                    new CurrencyRates(1,"euro",BigDecimal.valueOf(4.6),LocalDateTime.now())
+            );
+        }
+        if (fuelPriceRepository.findFuelPriceByCountry(POLAND).isEmpty()){
+            fuelPriceRepository.save(
+                    new FuelPrice(1,"euro","Poland",BigDecimal.valueOf(1.65),
+                            LocalDateTime.now())
+            );
+        }
     }
 }

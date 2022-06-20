@@ -21,7 +21,7 @@ public class CoordinatesClient {
     private final String HOST = "X-RapidAPI-Host";
     private final String HOST_VALUE = "address-from-to-latitude-longitude.p.rapidapi.com";
     private final String KEY = "X-RapidAPI-Key";
-    private final String KEY_VALUE = "0517e757fbmshb5906afd6b296fep16877ajsnc513eaa9de63";
+    private final String KEY_VALUE = "6381154e39mshf50c1d240804828p124e5cjsn33065f9d1c4c";
 
     public CoordinatesDto getCoordinates(String address){
         try {

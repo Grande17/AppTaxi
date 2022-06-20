@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.BiConsumer;
@@ -16,7 +17,7 @@ import java.util.function.BiConsumer;
 public class CustomerService {
 
     private final CustomerRepository customerRepository;
-    private final Random random = new Random();
+
 
     public Customer saveCustomer(Customer customer){
         return customerRepository.save(customer);
@@ -31,6 +32,29 @@ public class CustomerService {
     public List<Customer> findAll(){
         return customerRepository.findAll();
     }
+    public List<Customer> findByUsername(String username){
+        return customerRepository.findByUsernameContains(username);
+    }
+    public List<Customer> findByName(String name){
+        return customerRepository.findByNameContains(name);
+    }
+    public void updateEmail(Integer id, String email) throws CustomerNotFoundException {
+        Optional<Customer> byId = customerRepository.findById(id);
+        if (byId.isPresent()){
+            Customer updated = new Customer.Builder()
+                    .id(byId.get().getId())
+                    .name(byId.get().getName())
+                    .surname(byId.get().getSurname())
+                    .username(byId.get().getUsername())
+                    .phoneNumber(byId.get().getPhoneNumber())
+                    .email(email)
+                    .build();
+            customerRepository.save(updated);
+        }else{
+            throw new CustomerNotFoundException();
+        }
+    }
+
 
 
 }

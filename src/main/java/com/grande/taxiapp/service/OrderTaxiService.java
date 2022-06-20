@@ -2,6 +2,7 @@ package com.grande.taxiapp.service;
 
 import com.grande.taxiapp.domain.Driver;
 import com.grande.taxiapp.domain.OrderTaxi;
+import com.grande.taxiapp.domain.dto.OrderTaxiFullDto;
 import com.grande.taxiapp.enums.DriverStatus;
 import com.grande.taxiapp.enums.OrderTaxiStatus;
 import com.grande.taxiapp.foreignAPI.exchangeRates.CurrencyRepository;
@@ -29,9 +30,6 @@ public class OrderTaxiService {
     public OrderTaxi save(OrderTaxi orderTaxi){
         return orderTaxiRepository.save(orderTaxi);
     }
-    public void deleteById(Integer id){
-        orderTaxiRepository.deleteById(id);
-    }
     public Optional<OrderTaxi> findById(Integer id){
         return orderTaxiRepository.findById(id);
     }
@@ -41,10 +39,12 @@ public class OrderTaxiService {
     public List<OrderTaxi> findByCustomerId(Integer id){
         return orderTaxiRepository.findByCustomerId(id);
     }
-
+    public List<OrderTaxi> findByDriverId(Integer id){
+        return orderTaxiRepository.findByDriverId(id);
+    }
     public BigDecimal countTripPrice(Long distance){
         BigDecimal fuelPrice = fuelPriceRepository.findFuelPriceByCountry("Poland").get().getPrice();
-        BigDecimal euroRate = currencyRepository.findByCurrency("euro").get().getValue();
+        BigDecimal euroRate = currencyRepository.findByCurrency("euro").get().getPrice();
         BigDecimal priceOf1km = ((fuelPrice.multiply(euroRate))
                 .multiply(BigDecimal.valueOf(9))).divide(BigDecimal.valueOf(100));
         BigDecimal cost =(priceOf1km.multiply(BigDecimal.valueOf(distance)))
@@ -88,9 +88,9 @@ public class OrderTaxiService {
     }
     public void changeStatus(Integer id, String status){
         Optional<OrderTaxi> byId = orderTaxiRepository.findById(id);
-        if (status.equalsIgnoreCase("inProgress")){
+        if (status.equalsIgnoreCase(OrderTaxiStatus.IN_PROGRESS.name())){
             orderTaxiRepository.save(changeStatus(byId.get(),OrderTaxiStatus.IN_PROGRESS));
-        }if (status.equalsIgnoreCase("finished")){
+        }if (status.equalsIgnoreCase(OrderTaxiStatus.FINISHED.name())){
             orderTaxiRepository.save(changeStatus(byId.get(),OrderTaxiStatus.FINISHED));
             driverRepository.save(changeDriverStatus(byId.get().getDriver(), DriverStatus.ACTIVE));
         }
@@ -101,5 +101,8 @@ public class OrderTaxiService {
     }
     private Driver changeDriverStatus(Driver driver,DriverStatus status){
         return new Driver(driver.getId(), driver.getName(), driver.getSurname(), driver.getPhoneNumber(), driver.getEmail(),status,driver.getCar() );
+    }
+    public List<OrderTaxi> getByStatus(OrderTaxiStatus status){
+        return orderTaxiRepository.findByStatus(status);
     }
 }

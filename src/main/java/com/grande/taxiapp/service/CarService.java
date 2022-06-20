@@ -26,25 +26,14 @@ public class CarService {
         return carRepository.findById(carId).orElseThrow(CarNotFoundException::new);
     }
 
-    public Car findByPlates(String platesNumber) throws CarNotFoundException{
-        return carRepository.findByLicensePlateNumber(platesNumber).orElseThrow(CarNotFoundException::new);
+    public List<Car> findByPlatesContains(String platesNumber){
+        return carRepository.findByLicensePlateNumberContains(platesNumber);
     }
 
-    public Car saveCar(CarDto carDto) throws CarWithGivenPlatesException {
-        if (carRepository.findByLicensePlateNumber(carDto.getLicensePlateNumber()).isPresent()){
-            throw new CarWithGivenPlatesException();
-        }else {
-            Car car = carMapper.mapToCar(carDto);
-            return carRepository.save(car);
-        }
-    }
     public void updateCar(CarDto carDto){
         carRepository.save(carMapper.mapToCar(carDto));
     }
     public List<Car> findAll(){
         return carRepository.findAll();
-    }
-    public void deleteById(Integer id){
-        carRepository.deleteById(id);
     }
 }

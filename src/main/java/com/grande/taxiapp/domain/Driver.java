@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import java.util.List;
 
 @Entity(name = "DRIVERS")
@@ -45,6 +46,14 @@ public class Driver {
     }
     public Driver(Integer id, String name, String surname, String phoneNumber, String email,DriverStatus status, Car car) {
         this.id = id;
+        this.name = name;
+        this.surname = surname;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+        this.status = status;
+        this.car = car;
+    }
+    public Driver( String name, String surname, String phoneNumber, String email,DriverStatus status, Car car) {
         this.name = name;
         this.surname = surname;
         this.phoneNumber = phoneNumber;

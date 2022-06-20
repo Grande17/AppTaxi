@@ -22,7 +22,7 @@ public class DistanceAndDurationClient {
     private final String HOST= "X-RapidAPI-Host";
     private final String HOST_VALUE= "trueway-matrix.p.rapidapi.com";
     private final String KEY = "X-RapidAPI-Key";
-    private final String KEY_VALUE = "0517e757fbmshb5906afd6b296fep16877ajsnc513eaa9de63";
+    private final String KEY_VALUE = "6381154e39mshf50c1d240804828p124e5cjsn33065f9d1c4c";
 
     @Autowired
     private RestTemplate restTemplate;

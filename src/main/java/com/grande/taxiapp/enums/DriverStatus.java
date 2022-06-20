@@ -1,9 +1,15 @@
 package com.grande.taxiapp.enums;
 
 public enum DriverStatus {
-    ACTIVE,
-    BUSY,
-    BREAK,
-    INACTIVE,
-    ACCOUNT_DELETED
+    ACTIVE("ACTIVE"),
+    BUSY("BUSY"),
+    BREAK("BREAK"),
+    INACTIVE("INACTIVE"),
+    ACCOUNT_DELETED("ACCOUNT_DELETED");
+
+    public String name;
+
+    DriverStatus(String name) {
+        this.name = name;
+    }
 }
