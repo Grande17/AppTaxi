@@ -1,7 +1,7 @@
-package com.grande.taxiapp.foreignAPI.exchangeRates;
+package com.grande.taxiApp.foreignApi.exchangeRates;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClientException;
@@ -12,24 +12,20 @@ import java.net.URI;
 
 @Slf4j
 @Component
+@RequiredArgsConstructor
 public class CurrencyExchangeClient {
 
     @Value("${nbp.currency.rates.api}")
     private String nbpApiEndpoint;
 
-
-    @Autowired
-    private RestTemplate restTemplate;
+    private final RestTemplate restTemplate;
 
     private URI createURI(){
-        URI url = UriComponentsBuilder.fromHttpUrl(nbpApiEndpoint)
-                .build().encode().toUri();
-        return url;
+        return UriComponentsBuilder.fromHttpUrl(nbpApiEndpoint).build().encode().toUri();
     }
     public CurrencyDto getCurrentCurrencyRate(){
         try{
-            CurrencyDto currencyDto = restTemplate.getForObject(createURI(),CurrencyDto.class);
-            return currencyDto;
+            return restTemplate.getForObject(createURI(),CurrencyDto.class);
         }catch (RestClientException e){
             log.error("Error during connecting to NBP API! "+ e.getMessage() );
         }

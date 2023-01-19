@@ -1,7 +1,7 @@
-package com.grande.taxiapp.domain.dto;
+package com.grande.taxiApp.domain.dto;
 
-import com.grande.taxiapp.domain.Car;
-import com.grande.taxiapp.enums.DriverStatus;
+import com.grande.taxiApp.domain.Car;
+import com.grande.taxiApp.enums.DriverStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

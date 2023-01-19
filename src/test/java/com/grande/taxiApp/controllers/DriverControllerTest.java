@@ -1,35 +1,28 @@
-package com.grande.taxiapp.controllers;
+package com.grande.taxiApp.controllers;
 
 import com.google.gson.Gson;
-import com.grande.taxiapp.domain.Car;
-import com.grande.taxiapp.domain.Driver;
-import com.grande.taxiapp.domain.dto.DriverDto;
-import com.grande.taxiapp.enums.DriverStatus;
-import com.grande.taxiapp.exceptions.CarWithGivenPlatesException;
-import com.grande.taxiapp.exceptions.EmailException;
-import com.grande.taxiapp.mappers.DriverMapper;
-import com.grande.taxiapp.service.DriverService;
-import org.hamcrest.Matchers;
+import com.grande.taxiApp.domain.Car;
+import com.grande.taxiApp.domain.Driver;
+import com.grande.taxiApp.domain.dto.DriverDto;
+import com.grande.taxiApp.enums.DriverStatus;
+import com.grande.taxiApp.mappers.DriverMapper;
+import com.grande.taxiApp.service.DriverService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.support.ApplicationObjectSupport;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import javax.print.attribute.standard.Media;
 import java.util.List;
 import java.util.Optional;
 
 import static org.hamcrest.Matchers.*;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;

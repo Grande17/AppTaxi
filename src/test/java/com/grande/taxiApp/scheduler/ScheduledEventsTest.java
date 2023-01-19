@@ -1,29 +1,25 @@
-package com.grande.taxiapp.scheduler;
+package com.grande.taxiApp.scheduler;
 
-import com.grande.taxiapp.domain.CurrencyRates;
-import com.grande.taxiapp.domain.FuelPrice;
-import com.grande.taxiapp.foreignAPI.exchangeRates.CurrencyDto;
-import com.grande.taxiapp.foreignAPI.exchangeRates.CurrencyExchangeClient;
-import com.grande.taxiapp.foreignAPI.exchangeRates.CurrencyRepository;
-import com.grande.taxiapp.foreignAPI.exchangeRates.RatesDto;
-import com.grande.taxiapp.foreignAPI.fuelPrice.FuelPriceClient;
-import com.grande.taxiapp.foreignAPI.fuelPrice.FuelPriceDto;
-import com.grande.taxiapp.foreignAPI.fuelPrice.FuelPriceListDto;
-import com.grande.taxiapp.foreignAPI.fuelPrice.FuelPriceRepository;
-import com.grande.taxiapp.repository.CustomerRepository;
-import com.grande.taxiapp.repository.OrderTaxiRepository;
+import com.grande.taxiApp.domain.CurrencyRates;
+import com.grande.taxiApp.domain.FuelPrice;
+import com.grande.taxiApp.foreignApi.exchangeRates.CurrencyDto;
+import com.grande.taxiApp.foreignApi.exchangeRates.CurrencyExchangeClient;
+import com.grande.taxiApp.foreignApi.exchangeRates.CurrencyRepository;
+import com.grande.taxiApp.foreignApi.exchangeRates.RatesDto;
+import com.grande.taxiApp.foreignApi.fuelPrice.FuelPriceClient;
+import com.grande.taxiApp.foreignApi.fuelPrice.FuelPriceDto;
+import com.grande.taxiApp.foreignApi.fuelPrice.FuelPriceListDto;
+import com.grande.taxiApp.foreignApi.fuelPrice.FuelPriceRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 

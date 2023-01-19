@@ -1,7 +1,7 @@
-package com.grande.taxiapp.repository;
+package com.grande.taxiApp.repository;
 
-import com.grande.taxiapp.domain.Driver;
-import com.grande.taxiapp.enums.DriverStatus;
+import com.grande.taxiApp.domain.Driver;
+import com.grande.taxiApp.enums.DriverStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

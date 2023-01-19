@@ -1,4 +1,4 @@
-package com.grande.taxiapp.enums;
+package com.grande.taxiApp.enums;
 
 public enum OrderTaxiStatus {
     ACTIVE,

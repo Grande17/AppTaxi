@@ -1,15 +1,14 @@
-package com.grande.taxiapp.domain;
+package com.grande.taxiApp.domain;
 
-import com.sun.istack.NotNull;
-import com.sun.istack.Nullable;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
-import java.math.BigDecimal;
+import javax.validation.constraints.NotNull;
 
 @Entity(name = "CUSTOMERS")
 @NoArgsConstructor

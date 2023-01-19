@@ -1,6 +1,6 @@
-package com.grande.taxiapp.foreignAPI.fuelPrice;
+package com.grande.taxiApp.foreignApi.fuelPrice;
 
-import com.grande.taxiapp.domain.FuelPrice;
+import com.grande.taxiApp.domain.FuelPrice;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

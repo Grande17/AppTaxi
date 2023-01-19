@@ -1,16 +1,16 @@
-package com.grande.taxiapp.service;
+package com.grande.taxiApp.service;
 
-import com.grande.taxiapp.domain.Car;
-import com.grande.taxiapp.domain.Driver;
-import com.grande.taxiapp.domain.dto.DriverDto;
-import com.grande.taxiapp.enums.DriverStatus;
-import com.grande.taxiapp.exceptions.CarWithGivenPlatesException;
-import com.grande.taxiapp.exceptions.DriverNotFoundException;
-import com.grande.taxiapp.exceptions.EmailException;
-import com.grande.taxiapp.mappers.DriverMapper;
-import com.grande.taxiapp.repository.CarRepository;
-import com.grande.taxiapp.repository.DriverRepository;
-import lombok.AllArgsConstructor;
+import com.grande.taxiApp.domain.Car;
+import com.grande.taxiApp.domain.Driver;
+import com.grande.taxiApp.domain.dto.DriverDto;
+import com.grande.taxiApp.enums.DriverStatus;
+import com.grande.taxiApp.exceptions.CarWithGivenPlatesException;
+import com.grande.taxiApp.exceptions.DriverNotFoundException;
+import com.grande.taxiApp.exceptions.EmailException;
+import com.grande.taxiApp.mappers.DriverMapper;
+import com.grande.taxiApp.repository.CarRepository;
+import com.grande.taxiApp.repository.DriverRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,7 +18,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class DriverService {
 
     private final DriverRepository driverRepository;
@@ -49,10 +49,9 @@ public class DriverService {
         return driverRepository.save(driver);
     }
     public List<Driver> getAll(){
-         List<Driver> drivers = driverRepository.findAll().stream()
+        return driverRepository.findAll().stream()
                  .filter(x->!x.getStatus().equals(DriverStatus.ACCOUNT_DELETED))
                  .collect(Collectors.toList());
-         return drivers;
 
     }
     public Optional<Driver> findById(Integer id){
@@ -61,15 +60,7 @@ public class DriverService {
 
     public void deleteDriverById(Integer id){
         Optional<Driver> byId = driverRepository.findById(id);
-        Driver driver = new Driver(
-                byId.get().getId(),
-                byId.get().getName(),
-                byId.get().getSurname(),
-                byId.get().getPhoneNumber(),
-                byId.get().getEmail(),
-                DriverStatus.ACCOUNT_DELETED,
-                byId.get().getCar());
-        driverRepository.save(driver);
+        byId.get().setStatus(DriverStatus.ACCOUNT_DELETED);
 
     }
     private boolean verifyDriver(DriverDto driverDto){
@@ -87,28 +78,22 @@ public class DriverService {
     public Driver updateStatus(Integer id, String status) throws DriverNotFoundException {
         Optional<Driver> byId = driverRepository.findById(id);
         if (byId.isPresent()){
-            Driver driver = new Driver();
-            driver.setId(byId.get().getId());
-            driver.setName(byId.get().getName());
-            driver.setSurname(byId.get().getSurname());
-            driver.setEmail(byId.get().getEmail());
-            driver.setPhoneNumber(byId.get().getPhoneNumber());
-            driver.setCar(byId.get().getCar());
+
             switch (status){
                 case "ACTIVE":
-                    driver.setStatus(DriverStatus.ACTIVE);
+                    byId.get().setStatus(DriverStatus.ACTIVE);
                     break;
                 case "BUSY":
-                    driver.setStatus(DriverStatus.BUSY);
+                    byId.get().setStatus(DriverStatus.BUSY);
                     break;
                 case "BREAK":
-                    driver.setStatus(DriverStatus.BREAK);
+                    byId.get().setStatus(DriverStatus.BREAK);
                     break;
                 case "INACTIVE":
-                    driver.setStatus(DriverStatus.INACTIVE);
+                    byId.get().setStatus(DriverStatus.INACTIVE);
                     break;
             }
-            return driverRepository.save(driver);
+            return driverRepository.save(byId.get());
         }else{
             throw new DriverNotFoundException();
         }

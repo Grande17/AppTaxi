@@ -1,4 +1,4 @@
-package com.grande.taxiapp.exceptions;
+package com.grande.taxiApp.exceptions;
 
 public class OrderTaxiNotFoundException extends Exception{
 }

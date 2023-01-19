@@ -1,27 +1,20 @@
-package com.grande.taxiapp.controllers;
+package com.grande.taxiApp.controllers;
 
-import com.grande.taxiapp.domain.Customer;
-import com.grande.taxiapp.domain.OrderTaxi;
-import com.grande.taxiapp.domain.dto.OrderTaxiDto;
-import com.grande.taxiapp.domain.dto.OrderTaxiFullDto;
-import com.grande.taxiapp.enums.OrderTaxiStatus;
-import com.grande.taxiapp.exceptions.CustomerNotFoundException;
-import com.grande.taxiapp.exceptions.NumberOfActiveOrdersException;
-import com.grande.taxiapp.facade.OrderFacade;
-import com.grande.taxiapp.foreignAPI.addressToCoordinates.CoordinatesClient;
-import com.grande.taxiapp.foreignAPI.distanceAndTime.DistanceAndDurationClient;
-import com.grande.taxiapp.mappers.OrderTaxiMapper;
-import com.grande.taxiapp.service.CustomerService;
-import com.grande.taxiapp.service.OrderTaxiService;
+import com.grande.taxiApp.domain.OrderTaxi;
+import com.grande.taxiApp.domain.dto.OrderTaxiDto;
+import com.grande.taxiApp.domain.dto.OrderTaxiFullDto;
+import com.grande.taxiApp.enums.OrderTaxiStatus;
+import com.grande.taxiApp.exceptions.NumberOfActiveOrdersException;
+import com.grande.taxiApp.facade.OrderFacade;
+import com.grande.taxiApp.mappers.OrderTaxiMapper;
+import com.grande.taxiApp.service.OrderTaxiService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.persistence.criteria.CriteriaBuilder;
 import javax.validation.Valid;
-import java.math.BigDecimal;
 import java.util.List;
 
 @RestController

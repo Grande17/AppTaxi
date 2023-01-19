@@ -1,4 +1,4 @@
-package com.grande.taxiapp.foreignAPI.addressToCoordinates;
+package com.grande.taxiApp.foreignApi.addressToCoordinates;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;

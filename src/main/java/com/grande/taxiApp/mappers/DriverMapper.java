@@ -1,7 +1,7 @@
-package com.grande.taxiapp.mappers;
+package com.grande.taxiApp.mappers;
 
-import com.grande.taxiapp.domain.Driver;
-import com.grande.taxiapp.domain.dto.DriverDto;
+import com.grande.taxiApp.domain.Driver;
+import com.grande.taxiApp.domain.dto.DriverDto;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

@@ -1,7 +1,7 @@
-package com.grande.taxiapp.mappers;
+package com.grande.taxiApp.mappers;
 
-import com.grande.taxiapp.domain.Customer;
-import com.grande.taxiapp.domain.dto.CustomerDto;
+import com.grande.taxiApp.domain.Customer;
+import com.grande.taxiApp.domain.dto.CustomerDto;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,4 +1,4 @@
-package com.grande.taxiapp.domain.dto;
+package com.grande.taxiApp.domain.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

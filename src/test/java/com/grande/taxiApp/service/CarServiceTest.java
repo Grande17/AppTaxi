@@ -1,19 +1,16 @@
-package com.grande.taxiapp.service;
+package com.grande.taxiApp.service;
 
-import com.grande.taxiapp.domain.Car;
-import com.grande.taxiapp.domain.dto.CarDto;
-import com.grande.taxiapp.exceptions.CarNotFoundException;
-import com.grande.taxiapp.mappers.CarMapper;
-import com.grande.taxiapp.repository.CarRepository;
+import com.grande.taxiApp.domain.Car;
+import com.grande.taxiApp.domain.dto.CarDto;
+import com.grande.taxiApp.exceptions.CarNotFoundException;
+import com.grande.taxiApp.mappers.CarMapper;
+import com.grande.taxiApp.repository.CarRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.stereotype.Service;
-import org.springframework.test.annotation.DirtiesContext;
 
 import java.util.Arrays;
 import java.util.List;

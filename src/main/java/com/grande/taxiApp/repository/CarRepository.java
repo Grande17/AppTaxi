@@ -1,6 +1,6 @@
-package com.grande.taxiapp.repository;
+package com.grande.taxiApp.repository;
 
-import com.grande.taxiapp.domain.Car;
+import com.grande.taxiApp.domain.Car;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

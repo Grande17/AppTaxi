@@ -1,23 +1,23 @@
-package com.grande.taxiapp.facade;
+package com.grande.taxiApp.facade;
 
-import com.grande.taxiapp.domain.Customer;
-import com.grande.taxiapp.domain.Driver;
-import com.grande.taxiapp.domain.OrderTaxi;
-import com.grande.taxiapp.domain.dto.MailDto;
-import com.grande.taxiapp.domain.dto.OrderTaxiDto;
-import com.grande.taxiapp.enums.DriverStatus;
-import com.grande.taxiapp.enums.OrderTaxiStatus;
-import com.grande.taxiapp.exceptions.NumberOfActiveOrdersException;
-import com.grande.taxiapp.foreignAPI.addressToCoordinates.CoordinatesClient;
-import com.grande.taxiapp.foreignAPI.addressToCoordinates.CoordinatesDto;
-import com.grande.taxiapp.foreignAPI.distanceAndTime.DistanceAndDurationClient;
-import com.grande.taxiapp.foreignAPI.distanceAndTime.DistanceAndDurationDto;
-import com.grande.taxiapp.repository.CustomerRepository;
-import com.grande.taxiapp.repository.DriverRepository;
-import com.grande.taxiapp.service.EmailService;
-import com.grande.taxiapp.service.OrderTaxiService;
+import com.grande.taxiApp.domain.Customer;
+import com.grande.taxiApp.domain.Driver;
+import com.grande.taxiApp.domain.OrderTaxi;
+import com.grande.taxiApp.domain.dto.MailDto;
+import com.grande.taxiApp.domain.dto.OrderTaxiDto;
+import com.grande.taxiApp.enums.DriverStatus;
+import com.grande.taxiApp.enums.OrderTaxiStatus;
+import com.grande.taxiApp.exceptions.NumberOfActiveOrdersException;
+import com.grande.taxiApp.foreignApi.addressToCoordinates.CoordinatesClient;
+import com.grande.taxiApp.foreignApi.addressToCoordinates.CoordinatesDto;
+import com.grande.taxiApp.foreignApi.distanceAndTime.DistanceAndDurationClient;
+import com.grande.taxiApp.foreignApi.distanceAndTime.DistanceAndDurationDto;
+import com.grande.taxiApp.repository.CustomerRepository;
+import com.grande.taxiApp.repository.DriverRepository;
+import com.grande.taxiApp.service.EmailService;
+import com.grande.taxiApp.service.OrderTaxiService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
@@ -29,19 +29,15 @@ import java.util.Optional;
 import java.util.Random;
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class OrderFacade {
-    @Autowired
-    private CustomerRepository customerRepository;
-    @Autowired
-    private CoordinatesClient coordinatesClient;
-    @Autowired
-    private DistanceAndDurationClient distanceAndDurationClient;
-    @Autowired
-    private OrderTaxiService orderTaxiService;
-    @Autowired
-    private DriverRepository driverRepository;
-    @Autowired
-    private EmailService emailService;
+    private final CustomerRepository customerRepository;
+    private final CoordinatesClient coordinatesClient;
+    private final DistanceAndDurationClient distanceAndDurationClient;
+    private final OrderTaxiService orderTaxiService;
+    private final DriverRepository driverRepository;
+    private final EmailService emailService;
+    private Random random = new Random();
 
 
     public OrderTaxi createOrder(OrderTaxiDto orderTaxiDto) throws NumberOfActiveOrdersException {
@@ -65,18 +61,9 @@ public class OrderFacade {
                 LocalTime time = LocalTime.ofSecondOfDay(duration.get(0));
 
                 List<Driver> activeDrivers = driverRepository.findByStatus(DriverStatus.ACTIVE);
-                if (activeDrivers.size() > 0) {
-                    Random random = new Random();
+                if (!activeDrivers.isEmpty()) {
                     Driver driver = activeDrivers.get(random.nextInt(activeDrivers.size()));
-                    driverRepository.save(new Driver(
-                            driver.getId(),
-                            driver.getName(),
-                            driver.getSurname(),
-                            driver.getPhoneNumber(),
-                            driver.getEmail(),
-                            DriverStatus.BUSY,
-                            driver.getCar()
-                    ));
+                    driver.setStatus(DriverStatus.BUSY);
 
                     OrderTaxi created = new OrderTaxi(orderTaxiDto.getId(), pickUpPlace.getAddress(), dropPlace.getAddress(),
                             tripCost, time, customer.get(), driver);
@@ -90,9 +77,8 @@ public class OrderFacade {
                                     "Duration: "+created.getEstimatedTime().toString()+"\n" +
                                     "Your driver will be: "+created.getDriver().getName()+"\n" +
                                     "WE WISH YOU A PLEASANT TRIP"));
-                    customerRepository.save(new Customer(customer.get().getId(),
-                            customer.get().getName(),customer.get().getSurname(),customer.get().getUsername(),
-                            customer.get().getPhoneNumber(),customer.get().getEmail(),1.0));
+
+
 
                     return created;
                 }

@@ -1,7 +1,7 @@
-package com.grande.taxiapp.foreignAPI.addressToCoordinates;
+package com.grande.taxiApp.foreignApi.addressToCoordinates;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.http.RequestEntity;
@@ -12,29 +12,33 @@ import org.springframework.web.client.RestTemplate;
 
 @Slf4j
 @Component
+@RequiredArgsConstructor
 public class CoordinatesClient {
 
-    @Autowired
-    private RestTemplate restTemplate;
+
+    private final RestTemplate restTemplate;
     @Value("${addressToCoordinates.api}")
-    private String APILink;
-    private final String HOST = "X-RapidAPI-Host";
-    private final String HOST_VALUE = "address-from-to-latitude-longitude.p.rapidapi.com";
-    private final String KEY = "X-RapidAPI-Key";
-    private final String KEY_VALUE = "6381154e39mshf50c1d240804828p124e5cjsn33065f9d1c4c";
+    private String api;
+    @Value("${addressToCoordinates.host}")
+    private String host;
+    @Value("${addressToCoordinates.host_value}")
+    private String hostValue;
+    @Value("${addressToCoordinates.key}")
+    private String key;
+    @Value("${addressToCoordinates.key_value}")
+    private String keyValue;
 
     public CoordinatesDto getCoordinates(String address){
         try {
             log.info("Connecting to CoordinatesAPI");
-            RequestEntity<Void> request = RequestEntity.get(APILink + address)
+            RequestEntity<Void> request = RequestEntity.get(api + address)
                     .accept(MediaType.APPLICATION_JSON)
-                    .header(HOST, HOST_VALUE)
-                    .header(KEY, KEY_VALUE)
+                    .header(host, hostValue)
+                    .header(key, keyValue)
                     .build();
             ResponseEntity<CoordinatesListDto> response = restTemplate.exchange(request, CoordinatesListDto.class);
-            CoordinatesDto result = response.getBody().getAllCoordinates().stream().findFirst().get();
 
-            return result;
+            return response.getBody().getAllCoordinates().stream().findFirst().get();
         }catch (RestClientException e){
             log.error("Error while connection to CoordinatesAPI: "+e.getMessage());
         }

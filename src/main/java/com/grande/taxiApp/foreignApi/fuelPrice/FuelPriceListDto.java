@@ -1,7 +1,6 @@
-package com.grande.taxiapp.foreignAPI.fuelPrice;
+package com.grande.taxiApp.foreignApi.fuelPrice;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.grande.taxiapp.foreignAPI.fuelPrice.FuelPriceDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

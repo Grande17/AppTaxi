@@ -1,4 +1,4 @@
-package com.grande.taxiapp.domain;
+package com.grande.taxiApp.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -6,9 +6,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 @Entity(name = "CARS")

@@ -1,19 +1,16 @@
-package com.grande.taxiapp.service;
+package com.grande.taxiApp.service;
 
-import com.grande.taxiapp.domain.Customer;
-import com.grande.taxiapp.exceptions.CustomerNotFoundException;
-import com.grande.taxiapp.repository.CustomerRepository;
-import lombok.AllArgsConstructor;
+import com.grande.taxiApp.domain.Customer;
+import com.grande.taxiApp.exceptions.CustomerNotFoundException;
+import com.grande.taxiApp.repository.CustomerRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Random;
-import java.util.concurrent.ThreadLocalRandom;
-import java.util.function.BiConsumer;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class CustomerService {
 
     private final CustomerRepository customerRepository;
@@ -41,15 +38,7 @@ public class CustomerService {
     public void updateEmail(Integer id, String email) throws CustomerNotFoundException {
         Optional<Customer> byId = customerRepository.findById(id);
         if (byId.isPresent()){
-            Customer updated = new Customer.Builder()
-                    .id(byId.get().getId())
-                    .name(byId.get().getName())
-                    .surname(byId.get().getSurname())
-                    .username(byId.get().getUsername())
-                    .phoneNumber(byId.get().getPhoneNumber())
-                    .email(email)
-                    .build();
-            customerRepository.save(updated);
+            byId.get().setEmail(email);
         }else{
             throw new CustomerNotFoundException();
         }

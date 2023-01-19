@@ -1,9 +1,8 @@
-package com.grande.taxiapp.repository;
+package com.grande.taxiApp.repository;
 
-import com.grande.taxiapp.domain.OrderTaxi;
-import com.grande.taxiapp.enums.OrderTaxiStatus;
+import com.grande.taxiApp.domain.OrderTaxi;
+import com.grande.taxiApp.enums.OrderTaxiStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;

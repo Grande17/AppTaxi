@@ -1,4 +1,4 @@
-package com.grande.taxiapp.exceptions;
+package com.grande.taxiApp.exceptions;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

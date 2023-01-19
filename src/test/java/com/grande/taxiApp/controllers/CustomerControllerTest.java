@@ -1,15 +1,13 @@
-package com.grande.taxiapp.controllers;
+package com.grande.taxiApp.controllers;
 
 import com.google.gson.Gson;
-import com.grande.taxiapp.domain.Customer;
-import com.grande.taxiapp.domain.dto.CustomerDto;
-import com.grande.taxiapp.exceptions.CustomerNotFoundException;
-import com.grande.taxiapp.mappers.CustomerMapper;
-import com.grande.taxiapp.service.CustomerService;
+import com.grande.taxiApp.domain.Customer;
+import com.grande.taxiApp.domain.dto.CustomerDto;
+import com.grande.taxiApp.mappers.CustomerMapper;
+import com.grande.taxiApp.service.CustomerService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -22,7 +20,6 @@ import org.springframework.web.context.WebApplicationContext;
 import java.util.List;
 
 import static org.hamcrest.Matchers.is;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;

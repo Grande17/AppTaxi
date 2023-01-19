@@ -1,20 +1,20 @@
-package com.grande.taxiapp.scheduler;
+package com.grande.taxiApp.scheduler;
 
-import com.grande.taxiapp.domain.CurrencyRates;
-import com.grande.taxiapp.domain.Customer;
-import com.grande.taxiapp.domain.FuelPrice;
-import com.grande.taxiapp.domain.OrderTaxi;
-import com.grande.taxiapp.enums.OrderTaxiStatus;
-import com.grande.taxiapp.foreignAPI.exchangeRates.CurrencyDto;
-import com.grande.taxiapp.foreignAPI.fuelPrice.FuelPriceDto;
-import com.grande.taxiapp.foreignAPI.fuelPrice.FuelPriceListDto;
-import com.grande.taxiapp.foreignAPI.exchangeRates.CurrencyExchangeClient;
-import com.grande.taxiapp.foreignAPI.exchangeRates.CurrencyRepository;
-import com.grande.taxiapp.foreignAPI.fuelPrice.FuelPriceClient;
-import com.grande.taxiapp.foreignAPI.fuelPrice.FuelPriceRepository;
-import com.grande.taxiapp.repository.CustomerRepository;
-import com.grande.taxiapp.repository.OrderTaxiRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.grande.taxiApp.domain.CurrencyRates;
+import com.grande.taxiApp.domain.Customer;
+import com.grande.taxiApp.domain.FuelPrice;
+import com.grande.taxiApp.domain.OrderTaxi;
+import com.grande.taxiApp.enums.OrderTaxiStatus;
+import com.grande.taxiApp.foreignApi.exchangeRates.CurrencyDto;
+import com.grande.taxiApp.foreignApi.fuelPrice.FuelPriceDto;
+import com.grande.taxiApp.foreignApi.fuelPrice.FuelPriceListDto;
+import com.grande.taxiApp.foreignApi.exchangeRates.CurrencyExchangeClient;
+import com.grande.taxiApp.foreignApi.exchangeRates.CurrencyRepository;
+import com.grande.taxiApp.foreignApi.fuelPrice.FuelPriceClient;
+import com.grande.taxiApp.foreignApi.fuelPrice.FuelPriceRepository;
+import com.grande.taxiApp.repository.CustomerRepository;
+import com.grande.taxiApp.repository.OrderTaxiRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -29,22 +29,17 @@ import java.util.stream.Collectors;
 
 @Component
 @Transactional
+@RequiredArgsConstructor
 public class ScheduledEvents implements CommandLineRunner {
     public static final String POLAND = "Poland";
     public static final String EURO = "euro";
 
-    @Autowired
-    private CurrencyExchangeClient currencyExchangeClient;
-    @Autowired
-    private CurrencyRepository currencyRepository;
-    @Autowired
-    private FuelPriceClient fuelPriceClient;
-    @Autowired
-    private FuelPriceRepository fuelPriceRepository;
-    @Autowired
-    private OrderTaxiRepository orderTaxiRepository;
-    @Autowired
-    private CustomerRepository customerRepository;
+    private final CurrencyExchangeClient currencyExchangeClient;
+    private final CurrencyRepository currencyRepository;
+    private final FuelPriceClient fuelPriceClient;
+    private final FuelPriceRepository fuelPriceRepository;
+    private final OrderTaxiRepository orderTaxiRepository;
+    private final CustomerRepository customerRepository;
     private Random random = new Random();
 
     @Scheduled(cron = "* 1 * * * * ")
@@ -53,14 +48,10 @@ public class ScheduledEvents implements CommandLineRunner {
         BigDecimal value = currencyDto.getRates().get(0).getValue();
         Optional<CurrencyRates> euro = currencyRepository.findByCurrency(EURO);
         if (euro.isEmpty()) {
-            CurrencyRates currencyRates = new CurrencyRates(currencyDto.getCurrency(), currencyDto.getRates().get(0).getValue());
+            CurrencyRates currencyRates = new CurrencyRates(currencyDto.getCurrency(), value);
             currencyRepository.save(currencyRates);
         } else {
-            currencyRepository.save(new CurrencyRates(
-                    euro.get().getId(),
-                    euro.get().getCurrency(),
-                    value,
-                    LocalDateTime.now()));
+            euro.get().setPrice(value);
         }
     }
 
@@ -80,12 +71,7 @@ public class ScheduledEvents implements CommandLineRunner {
                     LocalDateTime.now());
             fuelPriceRepository.save(fuelPrice);
         } else {
-            fuelPriceRepository.save(new FuelPrice(
-                    price.get().getId(),
-                    price.get().getCurrency(),
-                    price.get().getCountry(),
-                    value,
-                    LocalDateTime.now()));
+            price.get().setPrice(value);
         }
     }
 
@@ -95,9 +81,7 @@ public class ScheduledEvents implements CommandLineRunner {
                 .collect(Collectors.groupingBy(OrderTaxi::getCustomer, Collectors.counting()));
         for (Map.Entry<Customer, Long> x: collect.entrySet()){
             if (randomizer()) {
-                customerRepository.save(new Customer(x.getKey().getId(),
-                        x.getKey().getName(), x.getKey().getSurname(), x.getKey().getSurname(),
-                        x.getKey().getPhoneNumber(), x.getKey().getEmail(), discount()));
+                x.getKey().setDiscount(discount());
             }
         }
     }
@@ -120,7 +104,7 @@ public class ScheduledEvents implements CommandLineRunner {
         }
         if (fuelPriceRepository.findFuelPriceByCountry(POLAND).isEmpty()){
             fuelPriceRepository.save(
-                    new FuelPrice(1,"euro","Poland",BigDecimal.valueOf(1.65),
+                    new FuelPrice(1,"euro",POLAND,BigDecimal.valueOf(1.65),
                             LocalDateTime.now())
             );
         }

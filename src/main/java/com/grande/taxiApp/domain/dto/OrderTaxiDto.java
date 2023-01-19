@@ -1,6 +1,6 @@
-package com.grande.taxiapp.domain.dto;
+package com.grande.taxiApp.domain.dto;
 
-import com.grande.taxiapp.domain.Customer;
+import com.grande.taxiApp.domain.Customer;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

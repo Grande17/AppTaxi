@@ -1,13 +1,13 @@
-package com.grande.taxiapp.controllers;
+package com.grande.taxiApp.controllers;
 
 
-import com.grande.taxiapp.domain.Driver;
-import com.grande.taxiapp.domain.dto.DriverDto;
-import com.grande.taxiapp.exceptions.CarWithGivenPlatesException;
-import com.grande.taxiapp.exceptions.DriverNotFoundException;
-import com.grande.taxiapp.exceptions.EmailException;
-import com.grande.taxiapp.mappers.DriverMapper;
-import com.grande.taxiapp.service.DriverService;
+import com.grande.taxiApp.domain.Driver;
+import com.grande.taxiApp.domain.dto.DriverDto;
+import com.grande.taxiApp.exceptions.CarWithGivenPlatesException;
+import com.grande.taxiApp.exceptions.DriverNotFoundException;
+import com.grande.taxiApp.exceptions.EmailException;
+import com.grande.taxiApp.mappers.DriverMapper;
+import com.grande.taxiApp.service.DriverService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;

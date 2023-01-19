@@ -1,8 +1,8 @@
-package com.grande.taxiapp.service;
+package com.grande.taxiApp.service;
 
-import com.grande.taxiapp.domain.dto.MailDto;
+import com.grande.taxiApp.domain.dto.MailDto;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -10,8 +10,9 @@ import org.springframework.stereotype.Service;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class EmailService {
-    @Autowired
+
     private JavaMailSender javaMailSender;
 
     private SimpleMailMessage createMessage(MailDto mailDto){

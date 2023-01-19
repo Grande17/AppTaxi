@@ -1,12 +1,10 @@
-package com.grande.taxiapp.controllers;
+package com.grande.taxiApp.controllers;
 
 import com.google.gson.Gson;
-import com.grande.taxiapp.domain.Car;
-import com.grande.taxiapp.domain.dto.CarDto;
-import com.grande.taxiapp.exceptions.CarNotFoundException;
-import com.grande.taxiapp.mappers.CarMapper;
-import com.grande.taxiapp.service.CarService;
-import org.hamcrest.Matchers;
+import com.grande.taxiApp.domain.Car;
+import com.grande.taxiApp.domain.dto.CarDto;
+import com.grande.taxiApp.mappers.CarMapper;
+import com.grande.taxiApp.service.CarService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -22,8 +20,6 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 

@@ -1,11 +1,9 @@
-package com.grande.taxiapp.foreignAPI.fuelPrice;
+package com.grande.taxiApp.foreignApi.fuelPrice;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.math.BigDecimal;
 
 @Getter
 @AllArgsConstructor

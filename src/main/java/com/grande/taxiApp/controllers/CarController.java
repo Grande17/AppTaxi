@@ -1,13 +1,11 @@
-package com.grande.taxiapp.controllers;
+package com.grande.taxiApp.controllers;
 
-import com.grande.taxiapp.domain.Car;
-import com.grande.taxiapp.domain.dto.CarDto;
-import com.grande.taxiapp.exceptions.CarNotFoundException;
-import com.grande.taxiapp.foreignAPI.fuelPrice.FuelPriceClient;
-import com.grande.taxiapp.mappers.CarMapper;
-import com.grande.taxiapp.service.CarService;
+import com.grande.taxiApp.domain.Car;
+import com.grande.taxiApp.domain.dto.CarDto;
+import com.grande.taxiApp.exceptions.CarNotFoundException;
+import com.grande.taxiApp.mappers.CarMapper;
+import com.grande.taxiApp.service.CarService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;

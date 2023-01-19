@@ -1,15 +1,15 @@
-package com.grande.taxiapp.service;
+package com.grande.taxiApp.service;
 
-import com.grande.taxiapp.domain.Car;
-import com.grande.taxiapp.domain.Customer;
-import com.grande.taxiapp.domain.Driver;
-import com.grande.taxiapp.domain.OrderTaxi;
-import com.grande.taxiapp.enums.DriverStatus;
-import com.grande.taxiapp.enums.OrderTaxiStatus;
-import com.grande.taxiapp.foreignAPI.exchangeRates.CurrencyRepository;
-import com.grande.taxiapp.foreignAPI.fuelPrice.FuelPriceRepository;
-import com.grande.taxiapp.repository.DriverRepository;
-import com.grande.taxiapp.repository.OrderTaxiRepository;
+import com.grande.taxiApp.domain.Car;
+import com.grande.taxiApp.domain.Customer;
+import com.grande.taxiApp.domain.Driver;
+import com.grande.taxiApp.domain.OrderTaxi;
+import com.grande.taxiApp.enums.DriverStatus;
+import com.grande.taxiApp.enums.OrderTaxiStatus;
+import com.grande.taxiApp.foreignApi.exchangeRates.CurrencyRepository;
+import com.grande.taxiApp.foreignApi.fuelPrice.FuelPriceRepository;
+import com.grande.taxiApp.repository.DriverRepository;
+import com.grande.taxiApp.repository.OrderTaxiRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

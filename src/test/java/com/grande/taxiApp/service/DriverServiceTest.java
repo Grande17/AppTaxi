@@ -1,22 +1,20 @@
-package com.grande.taxiapp.service;
+package com.grande.taxiApp.service;
 
-import com.grande.taxiapp.domain.Car;
-import com.grande.taxiapp.domain.Driver;
-import com.grande.taxiapp.domain.dto.DriverDto;
-import com.grande.taxiapp.enums.DriverStatus;
-import com.grande.taxiapp.exceptions.CarWithGivenPlatesException;
-import com.grande.taxiapp.exceptions.DriverNotFoundException;
-import com.grande.taxiapp.exceptions.EmailException;
-import com.grande.taxiapp.mappers.CarMapper;
-import com.grande.taxiapp.mappers.DriverMapper;
-import com.grande.taxiapp.repository.CarRepository;
-import com.grande.taxiapp.repository.DriverRepository;
+import com.grande.taxiApp.domain.Car;
+import com.grande.taxiApp.domain.Driver;
+import com.grande.taxiApp.domain.dto.DriverDto;
+import com.grande.taxiApp.enums.DriverStatus;
+import com.grande.taxiApp.exceptions.CarWithGivenPlatesException;
+import com.grande.taxiApp.exceptions.DriverNotFoundException;
+import com.grande.taxiApp.exceptions.EmailException;
+import com.grande.taxiApp.mappers.DriverMapper;
+import com.grande.taxiApp.repository.CarRepository;
+import com.grande.taxiApp.repository.DriverRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Arrays;
 import java.util.List;

@@ -1,19 +1,16 @@
-package com.grande.taxiapp.controllers;
+package com.grande.taxiApp.controllers;
 
 import com.google.gson.Gson;
-import com.grande.taxiapp.domain.Car;
-import com.grande.taxiapp.domain.Customer;
-import com.grande.taxiapp.domain.Driver;
-import com.grande.taxiapp.domain.OrderTaxi;
-import com.grande.taxiapp.domain.dto.OrderTaxiDto;
-import com.grande.taxiapp.domain.dto.OrderTaxiFullDto;
-import com.grande.taxiapp.enums.DriverStatus;
-import com.grande.taxiapp.enums.OrderTaxiStatus;
-import com.grande.taxiapp.exceptions.NumberOfActiveOrdersException;
-import com.grande.taxiapp.facade.OrderFacade;
-import com.grande.taxiapp.mappers.OrderTaxiMapper;
-import com.grande.taxiapp.service.OrderTaxiService;
-import org.hamcrest.Matchers;
+import com.grande.taxiApp.domain.Car;
+import com.grande.taxiApp.domain.Customer;
+import com.grande.taxiApp.domain.Driver;
+import com.grande.taxiApp.domain.OrderTaxi;
+import com.grande.taxiApp.domain.dto.OrderTaxiDto;
+import com.grande.taxiApp.domain.dto.OrderTaxiFullDto;
+import com.grande.taxiApp.enums.OrderTaxiStatus;
+import com.grande.taxiApp.facade.OrderFacade;
+import com.grande.taxiApp.mappers.OrderTaxiMapper;
+import com.grande.taxiApp.service.OrderTaxiService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -31,7 +28,6 @@ import java.time.LocalTime;
 import java.util.List;
 
 import static org.hamcrest.Matchers.*;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;

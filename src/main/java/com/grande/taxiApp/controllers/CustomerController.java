@@ -1,11 +1,11 @@
-package com.grande.taxiapp.controllers;
+package com.grande.taxiApp.controllers;
 
 
-import com.grande.taxiapp.domain.Customer;
-import com.grande.taxiapp.domain.dto.CustomerDto;
-import com.grande.taxiapp.exceptions.CustomerNotFoundException;
-import com.grande.taxiapp.mappers.CustomerMapper;
-import com.grande.taxiapp.service.CustomerService;
+import com.grande.taxiApp.domain.Customer;
+import com.grande.taxiApp.domain.dto.CustomerDto;
+import com.grande.taxiApp.exceptions.CustomerNotFoundException;
+import com.grande.taxiApp.mappers.CustomerMapper;
+import com.grande.taxiApp.service.CustomerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;

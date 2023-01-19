@@ -1,4 +1,4 @@
-package com.grande.taxiapp.foreignAPI.exchangeRates;
+package com.grande.taxiApp.foreignApi.exchangeRates;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;

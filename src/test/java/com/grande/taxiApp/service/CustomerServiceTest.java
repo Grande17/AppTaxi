@@ -1,16 +1,14 @@
-package com.grande.taxiapp.service;
+package com.grande.taxiApp.service;
 
-import com.grande.taxiapp.domain.Customer;
-import com.grande.taxiapp.exceptions.CustomerNotFoundException;
-import com.grande.taxiapp.repository.CustomerRepository;
+import com.grande.taxiApp.domain.Customer;
+import com.grande.taxiApp.exceptions.CustomerNotFoundException;
+import com.grande.taxiApp.repository.CustomerRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Arrays;
 import java.util.List;

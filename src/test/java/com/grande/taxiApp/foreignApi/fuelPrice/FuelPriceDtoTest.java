@@ -1,4 +1,4 @@
-package com.grande.taxiapp.foreignAPI.fuelPrice;
+package com.grande.taxiApp.foreignApi.fuelPrice;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

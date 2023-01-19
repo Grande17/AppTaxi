@@ -1,4 +1,4 @@
-package com.grande.taxiapp.config;
+package com.grande.taxiApp.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

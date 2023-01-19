@@ -1,15 +1,12 @@
-package com.grande.taxiapp.domain;
+package com.grande.taxiApp.domain;
 
-import com.grande.taxiapp.enums.DriverStatus;
-import com.sun.istack.NotNull;
-import lombok.AllArgsConstructor;
+import com.grande.taxiApp.enums.DriverStatus;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
-import java.util.List;
+import javax.validation.constraints.NotNull;
 
 @Entity(name = "DRIVERS")
 @NoArgsConstructor

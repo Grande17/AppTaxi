@@ -1,6 +1,6 @@
-package com.grande.taxiapp.domain;
+package com.grande.taxiApp.domain;
 
-import com.grande.taxiapp.enums.OrderTaxiStatus;
+import com.grande.taxiApp.enums.OrderTaxiStatus;
 import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -8,11 +8,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
 import java.math.BigDecimal;
 import java.time.LocalTime;
-import java.util.List;
 
 @Entity(name = "TAXI_ORDERS")
 @NoArgsConstructor
