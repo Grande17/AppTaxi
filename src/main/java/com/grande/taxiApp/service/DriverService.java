@@ -28,14 +28,7 @@ public class DriverService {
     public Driver saveDriver(final DriverDto driverDto) throws CarWithGivenPlatesException, EmailException {
         if (verifyDriver(driverDto)){
             if (verifyCar(driverDto)){
-                Driver driver = new Driver(
-                        driverDto.getId(),
-                        driverDto.getName(), driverDto.getSurname(),
-                        driverDto.getPhoneNumber(),
-                        driverDto.getEmail(),
-                        new Car(driverDto.getCar().getId(),driverDto.getCar().getCarBrand(),driverDto.getCar().getModel(),
-                                driverDto.getCar().getBodyType(),driverDto.getCar().getLicensePlateNumber())
-                );
+                Driver driver = mapper.mapToDriver(driverDto);
                 return driverRepository.save(driver);
             }else{
                 throw new CarWithGivenPlatesException();
@@ -44,23 +37,39 @@ public class DriverService {
             throw new EmailException();
         }
     }
-    public Driver updateDriver(DriverDto driverDto){
-        Driver driver = mapper.mapToDriver(driverDto);
-        return driverRepository.save(driver);
+    public void updateDriver(DriverDto driverDto) throws DriverNotFoundException {
+        Optional<Driver> driver = driverRepository.findById(driverDto.getId());
+        if (driver.isPresent()) {
+            Driver driver1 = mapper.mapToDriver(driverDto);
+            driverRepository.save(driver1);
+        }else{
+            throw new DriverNotFoundException();
+        }
     }
-    public List<Driver> getAll(){
-        return driverRepository.findAll().stream()
-                 .filter(x->!x.getStatus().equals(DriverStatus.ACCOUNT_DELETED))
-                 .collect(Collectors.toList());
+    public List<DriverDto> getAll(){
+        List<Driver> collect = driverRepository.findAll().stream()
+                .filter(x -> !x.getStatus().equals(DriverStatus.ACCOUNT_DELETED))
+                .collect(Collectors.toList());
+        return mapper.mapToListDto(collect);
 
     }
-    public Optional<Driver> findById(Integer id){
-        return driverRepository.findById(id);
-    }
-
-    public void deleteDriverById(Integer id){
+    public DriverDto findById(Integer id) throws DriverNotFoundException {
         Optional<Driver> byId = driverRepository.findById(id);
+        if (byId.isEmpty()){
+            throw new DriverNotFoundException();
+        }else {
+            return mapper.mapToDriverDto(byId.get());
+        }
+    }
+
+    public void deleteDriverById(Integer id) throws DriverNotFoundException {
+        Optional<Driver> byId = driverRepository.findById(id);
+        if (byId.isEmpty()){
+            throw new DriverNotFoundException();
+        }
         byId.get().setStatus(DriverStatus.ACCOUNT_DELETED);
+        driverRepository.save(byId.get());
+
 
     }
     private boolean verifyDriver(DriverDto driverDto){
@@ -69,11 +78,13 @@ public class DriverService {
     private boolean verifyCar(DriverDto driverDto){
         return carRepository.findByLicensePlateNumber(driverDto.getCar().getLicensePlateNumber()).isEmpty();
     }
-    public List<Driver> findBySurname(String contains){
-        return driverRepository.findBySurnameContains(contains);
+    public List<DriverDto> findBySurname(String contains){
+        List<Driver> bySurnameContains = driverRepository.findBySurnameContains(contains);
+        return mapper.mapToListDto(bySurnameContains);
     }
-    public List<Driver> findByEmailContains(String email){
-        return driverRepository.findByEmailContains(email);
+    public List<DriverDto> findByEmailContains(String email){
+        List<Driver> byEmailContains = driverRepository.findByEmailContains(email);
+        return mapper.mapToListDto(byEmailContains);
     }
     public Driver updateStatus(Integer id, String status) throws DriverNotFoundException {
         Optional<Driver> byId = driverRepository.findById(id);

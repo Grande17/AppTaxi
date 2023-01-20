@@ -1,7 +1,9 @@
 package com.grande.taxiApp.service;
 
 import com.grande.taxiApp.domain.Customer;
+import com.grande.taxiApp.domain.dto.CustomerDto;
 import com.grande.taxiApp.exceptions.CustomerNotFoundException;
+import com.grande.taxiApp.mappers.CustomerMapper;
 import com.grande.taxiApp.repository.CustomerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,26 +16,32 @@ import java.util.Optional;
 public class CustomerService {
 
     private final CustomerRepository customerRepository;
+    private final CustomerMapper mapper;
 
 
-    public Customer saveCustomer(Customer customer){
-        return customerRepository.save(customer);
+    public Customer saveCustomer(CustomerDto customer){
+        Customer customer1 = mapper.mapToCustomer(customer);
+        return customerRepository.save(customer1);
     }
     public void deleteCustomerById(Integer id){
         customerRepository.deleteById(id);
     }
 
-    public Customer findCustomerById(Integer id) throws CustomerNotFoundException {
-        return customerRepository.findById(id).orElseThrow(CustomerNotFoundException::new);
+    public CustomerDto findCustomerById(Integer id) throws CustomerNotFoundException {
+        Customer customer = customerRepository.findById(id).orElseThrow(CustomerNotFoundException::new);
+        return mapper.mapToCustomerDto(customer);
     }
-    public List<Customer> findAll(){
-        return customerRepository.findAll();
+    public List<CustomerDto> findAll(){
+        List<Customer> all = customerRepository.findAll();
+        return mapper.mapToCustomerDtoList(all);
     }
-    public List<Customer> findByUsername(String username){
-        return customerRepository.findByUsernameContains(username);
+    public List<CustomerDto> findByUsername(String username){
+        List<Customer> byUsernameContains = customerRepository.findByUsernameContains(username);
+        return mapper.mapToCustomerDtoList(byUsernameContains);
     }
-    public List<Customer> findByName(String name){
-        return customerRepository.findByNameContains(name);
+    public List<CustomerDto> findByName(String name){
+        List<Customer> byNameContains = customerRepository.findByNameContains(name);
+        return mapper.mapToCustomerDtoList(byNameContains);
     }
     public void updateEmail(Integer id, String email) throws CustomerNotFoundException {
         Optional<Customer> byId = customerRepository.findById(id);

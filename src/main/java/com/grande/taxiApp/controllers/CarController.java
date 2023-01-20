@@ -20,7 +20,7 @@ import java.util.List;
 public class CarController {
 
     private final CarService carService;
-    private final CarMapper carMapper;
+
 
 
     @PutMapping
@@ -30,18 +30,15 @@ public class CarController {
     }
     @GetMapping
     public ResponseEntity<List<CarDto>> getAll(){
-        List<Car> all = carService.findAll();
-        return ResponseEntity.ok(carMapper.mapToCarDtoList(all));
+        return ResponseEntity.ok(carService.findAll());
     }
     @GetMapping(value = "/plates/{platesNumber}")
     public ResponseEntity<List<CarDto>> getCarByPlates(@PathVariable String platesNumber){
-        List<Car> car = carService.findByPlatesContains(platesNumber);
-        return ResponseEntity.ok(carMapper.mapToCarDtoList(car));
+        return ResponseEntity.ok(carService.findByPlatesContains(platesNumber));
     }
     @GetMapping(value = "{id}")
     public ResponseEntity<CarDto> findCarById(@PathVariable Integer id) throws CarNotFoundException {
-        Car car = carService.getCarById(id);
-        return ResponseEntity.ok(carMapper.mapToCarDto(car));
+        return ResponseEntity.ok(carService.getCarById(id));
     }
 
 

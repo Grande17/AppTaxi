@@ -18,18 +18,23 @@ public class CarService {
     private final CarRepository carRepository;
     private final CarMapper carMapper;
 
-    public Car getCarById(Integer carId) throws CarNotFoundException {
-        return carRepository.findById(carId).orElseThrow(CarNotFoundException::new);
+    public CarDto getCarById(Integer carId) throws CarNotFoundException {
+        Car car = carRepository.findById(carId).orElseThrow(CarNotFoundException::new);
+        return carMapper.mapToCarDto(car);
+
+
     }
 
-    public List<Car> findByPlatesContains(String platesNumber){
-        return carRepository.findByLicensePlateNumberContains(platesNumber);
+    public List<CarDto> findByPlatesContains(String platesNumber){
+        List<Car> byLicensePlateNumberContains = carRepository.findByLicensePlateNumberContains(platesNumber);
+        return carMapper.mapToCarDtoList(byLicensePlateNumberContains);
     }
 
     public void updateCar(CarDto carDto){
         carRepository.save(carMapper.mapToCar(carDto));
     }
-    public List<Car> findAll(){
-        return carRepository.findAll();
+    public List<CarDto> findAll(){
+        List<Car> all = carRepository.findAll();
+        return carMapper.mapToCarDtoList(all);
     }
 }

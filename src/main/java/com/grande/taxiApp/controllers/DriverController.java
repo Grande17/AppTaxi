@@ -22,7 +22,7 @@ import java.util.List;
 @Valid
 public class DriverController {
 
-    private final DriverMapper driverMapper;
+
     private final DriverService driverService;
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -32,30 +32,29 @@ public class DriverController {
     }
     @GetMapping
     public ResponseEntity<List<DriverDto>> getAll(){
-        List<Driver> all = driverService.getAll();
-        return ResponseEntity.ok(driverMapper.mapToListDto(all));
+        return ResponseEntity.ok(driverService.getAll());
     }
     @GetMapping(value = "{id}")
-    public ResponseEntity<DriverDto> getById(@PathVariable Integer id) throws DriverNotFoundException{
-        return ResponseEntity.ok(driverMapper.mapToDriverDto(driverService.findById(id).orElseThrow(DriverNotFoundException::new)));
+    public ResponseEntity<DriverDto> getById(@PathVariable Integer id) throws DriverNotFoundException {
+        return ResponseEntity.ok(driverService.findById(id));
     }
     @PutMapping
-    public ResponseEntity<Void> updateDriver(@RequestBody @Valid DriverDto driverDto){
+    public ResponseEntity<Void> updateDriver(@RequestBody @Valid DriverDto driverDto) throws DriverNotFoundException {
         driverService.updateDriver(driverDto);
         return ResponseEntity.ok().build();
     }
     @DeleteMapping(value = "{id}")
-    public ResponseEntity<Void> deleteDriverAcc(@PathVariable Integer id){
+    public ResponseEntity<Void> deleteDriverAcc(@PathVariable Integer id) throws DriverNotFoundException {
         driverService.deleteDriverById(id);
         return ResponseEntity.ok().build();
     }
     @GetMapping(value = "/name/{contains}")
     public ResponseEntity<List<DriverDto>> getByNameAndSurnameContains(@PathVariable String contains){
-        return ResponseEntity.ok(driverMapper.mapToListDto(driverService.findBySurname(contains)));
+        return ResponseEntity.ok(driverService.findBySurname(contains));
     }
     @GetMapping(value = "/email/{email}")
     public ResponseEntity<List<DriverDto>> findByEmailContains(@PathVariable String email){
-        return ResponseEntity.ok(driverMapper.mapToListDto(driverService.findByEmailContains(email)));
+        return ResponseEntity.ok(driverService.findByEmailContains(email));
     }
     @PutMapping(value = "/status/{id}/{status}")
     public ResponseEntity<Void> updateStatus(@PathVariable Integer id, @PathVariable String status) throws DriverNotFoundException {

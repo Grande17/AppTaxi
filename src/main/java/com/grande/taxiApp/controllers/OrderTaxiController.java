@@ -5,6 +5,7 @@ import com.grande.taxiApp.domain.dto.OrderTaxiDto;
 import com.grande.taxiApp.domain.dto.OrderTaxiFullDto;
 import com.grande.taxiApp.enums.OrderTaxiStatus;
 import com.grande.taxiApp.exceptions.NumberOfActiveOrdersException;
+import com.grande.taxiApp.exceptions.OrderTaxiNotFoundException;
 import com.grande.taxiApp.facade.OrderFacade;
 import com.grande.taxiApp.mappers.OrderTaxiMapper;
 import com.grande.taxiApp.service.OrderTaxiService;
@@ -24,23 +25,21 @@ import java.util.List;
 public class OrderTaxiController {
 
     private final OrderTaxiService orderTaxiService;
-    private final OrderTaxiMapper orderTaxiMapper;
     private final OrderFacade facade;
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public OrderTaxiFullDto orderTaxi(@RequestBody @Valid OrderTaxiDto orderTaxiDto) throws NumberOfActiveOrdersException {
-        OrderTaxi order = facade.createOrder(orderTaxiDto);
-        return orderTaxiMapper.mapToOrderTaxiFullDto(order);
+        return facade.createOrder(orderTaxiDto);
+
     }
     @PutMapping(value = "cancel/{id}")
-    public ResponseEntity<Void> cancel (@PathVariable Integer id){
+    public ResponseEntity<Void> cancel (@PathVariable Integer id) throws OrderTaxiNotFoundException {
         orderTaxiService.cancelOrderFouCustomersOnly(id);
         return ResponseEntity.ok().build();
     }
     @GetMapping(value = "history/{id}")
     public ResponseEntity<List<OrderTaxiFullDto>> returnUserOrderHistory(@PathVariable Integer id){
-        List<OrderTaxi> list = orderTaxiService.findByCustomerId(id);
-        return ResponseEntity.ok(orderTaxiMapper.mapToOrderTaxiFullDtoList(list));
+        return ResponseEntity.ok(orderTaxiService.findByCustomerId(id));
     }
     @PutMapping(value = "{orderId}/{status}")
     public ResponseEntity<Void> changeOrderStatus(@PathVariable Integer orderId, @PathVariable String status){
@@ -50,15 +49,15 @@ public class OrderTaxiController {
     }
     @GetMapping
     public ResponseEntity<List<OrderTaxiFullDto>> getAll(){
-        return ResponseEntity.ok(orderTaxiMapper.mapToOrderTaxiFullDtoList(orderTaxiService.findAll()));
+        return ResponseEntity.ok(orderTaxiService.findAll());
     }
     @GetMapping(value = "driverHistory/{id}")
     public ResponseEntity<List<OrderTaxiFullDto>> driverHistory(@PathVariable Integer id){
-        return ResponseEntity.ok(orderTaxiMapper.mapToOrderTaxiFullDtoList(orderTaxiService.findByDriverId(id)));
+        return ResponseEntity.ok(orderTaxiService.findByDriverId(id));
     }
     @GetMapping(value = "status/{status}")
     public ResponseEntity<List<OrderTaxiFullDto>> findByStatus(@PathVariable OrderTaxiStatus status){
-        return ResponseEntity.ok(orderTaxiMapper.mapToOrderTaxiFullDtoList(orderTaxiService.getByStatus(status)));
+        return ResponseEntity.ok(orderTaxiService.getByStatus(status));
     }
 
 }

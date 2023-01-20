@@ -2,10 +2,14 @@ package com.grande.taxiApp.service;
 
 import com.grande.taxiApp.domain.Driver;
 import com.grande.taxiApp.domain.OrderTaxi;
+import com.grande.taxiApp.domain.dto.OrderTaxiDto;
+import com.grande.taxiApp.domain.dto.OrderTaxiFullDto;
 import com.grande.taxiApp.enums.DriverStatus;
 import com.grande.taxiApp.enums.OrderTaxiStatus;
+import com.grande.taxiApp.exceptions.OrderTaxiNotFoundException;
 import com.grande.taxiApp.foreignApi.exchangeRates.CurrencyRepository;
 import com.grande.taxiApp.foreignApi.fuelPrice.FuelPriceRepository;
+import com.grande.taxiApp.mappers.OrderTaxiMapper;
 import com.grande.taxiApp.repository.DriverRepository;
 import com.grande.taxiApp.repository.OrderTaxiRepository;
 import lombok.RequiredArgsConstructor;
@@ -24,24 +28,34 @@ public class OrderTaxiService {
     private final FuelPriceRepository fuelPriceRepository;
     private final CurrencyRepository currencyRepository;
     private final DriverRepository driverRepository;
+    private final OrderTaxiMapper mapper;
 
     public OrderTaxi save(OrderTaxi orderTaxi){
         return orderTaxiRepository.save(orderTaxi);
     }
-    public Optional<OrderTaxi> findById(Integer id){
-        return orderTaxiRepository.findById(id);
+    public OrderTaxiFullDto findById(Integer id) throws OrderTaxiNotFoundException {
+        Optional<OrderTaxi> byId = orderTaxiRepository.findById(id);
+        if (byId.isEmpty()){
+            throw new OrderTaxiNotFoundException();
+        }else {
+            return mapper.mapToOrderTaxiFullDto(byId.get());
+        }
     }
-    public List<OrderTaxi> findAll(){
-        return orderTaxiRepository.findAll();
+    public List<OrderTaxiFullDto> findAll(){
+        List<OrderTaxi> all = orderTaxiRepository.findAll();
+        return mapper.mapToOrderTaxiFullDtoList(all);
     }
-    public List<OrderTaxi> findByCustomerId(Integer id){
-        return orderTaxiRepository.findByCustomerId(id);
+    public List<OrderTaxiFullDto> findByCustomerId(Integer id){
+        List<OrderTaxi> byCustomerId = orderTaxiRepository.findByCustomerId(id);
+        return mapper.mapToOrderTaxiFullDtoList(byCustomerId);
     }
-    public List<OrderTaxi> findByDriverId(Integer id){
-        return orderTaxiRepository.findByDriverId(id);
+    public List<OrderTaxiFullDto> findByDriverId(Integer id){
+        List<OrderTaxi> byDriverId = orderTaxiRepository.findByDriverId(id);
+        return mapper.mapToOrderTaxiFullDtoList(byDriverId);
     }
     public BigDecimal countTripPrice(Long distance){
         BigDecimal fuelPrice = fuelPriceRepository.findFuelPriceByCountry("Poland").get().getPrice();
+
         BigDecimal euroRate = currencyRepository.findByCurrency("euro").get().getPrice();
         BigDecimal priceOf1km = ((fuelPrice.multiply(euroRate))
                 .multiply(BigDecimal.valueOf(9))).divide(BigDecimal.valueOf(100));
@@ -62,27 +76,16 @@ public class OrderTaxiService {
         }
     }
 
-    public void cancelOrderFouCustomersOnly(Integer id){
+    public void cancelOrderFouCustomersOnly(Integer id) throws OrderTaxiNotFoundException {
         Optional<OrderTaxi> byId = orderTaxiRepository.findById(id);
-        Driver driver = new Driver(
-                byId.get().getDriver().getId(),
-                byId.get().getDriver().getName(),
-                byId.get().getDriver().getSurname(),
-                byId.get().getDriver().getPhoneNumber(),
-                byId.get().getDriver().getEmail(),
-                DriverStatus.ACTIVE,
-                byId.get().getDriver().getCar());
-        OrderTaxi cancelled = new OrderTaxi(
-                byId.get().getId(),
-                byId.get().getPickUpPlace(),
-                byId.get().getDropPlace(),
-                byId.get().getEstimatedCost(),
-                byId.get().getEstimatedTime(),
-                OrderTaxiStatus.CANCELLED,
-                byId.get().getCustomer(),
-                driver);
-        driverRepository.save(driver);
-        orderTaxiRepository.save(cancelled);
+        if (byId.isEmpty()){
+            throw new OrderTaxiNotFoundException();
+        }
+        byId.get().getDriver().setStatus(DriverStatus.ACTIVE);
+        byId.get().setStatus(OrderTaxiStatus.CANCELLED);
+        driverRepository.save(byId.get().getDriver());
+        orderTaxiRepository.save(byId.get());
+
     }
     public void changeStatus(Integer id, String status){
         Optional<OrderTaxi> byId = orderTaxiRepository.findById(id);
@@ -100,7 +103,8 @@ public class OrderTaxiService {
     private Driver changeDriverStatus(Driver driver,DriverStatus status){
         return new Driver(driver.getId(), driver.getName(), driver.getSurname(), driver.getPhoneNumber(), driver.getEmail(),status,driver.getCar() );
     }
-    public List<OrderTaxi> getByStatus(OrderTaxiStatus status){
-        return orderTaxiRepository.findByStatus(status);
+    public List<OrderTaxiFullDto> getByStatus(OrderTaxiStatus status){
+        List<OrderTaxi> byStatus = orderTaxiRepository.findByStatus(status);
+        return mapper.mapToOrderTaxiFullDtoList(byStatus);
     }
 }
