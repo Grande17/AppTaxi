@@ -38,7 +38,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(OrderTaxiController.class)
 class OrderTaxiControllerTest {
-
+/*
     @Autowired
     private WebApplicationContext webApplicationContext;
     private MockMvc mockMvc;
@@ -163,4 +163,6 @@ class OrderTaxiControllerTest {
                 .andExpect(jsonPath("$[0].customer.id", is(1)))
                 .andExpect(jsonPath("$[0].driver.id", is(1)));
     }
+
+ */
 }

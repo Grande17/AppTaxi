@@ -2,33 +2,24 @@ package com.grande.taxiApp.mappers;
 
 import com.grande.taxiApp.domain.Driver;
 import com.grande.taxiApp.domain.dto.DriverDto;
+import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class DriverMapper {
+    private final ModelMapper modelMapper;
 
-    public Driver mapToDriver(final DriverDto driverDto){
-        return new Driver(
-                driverDto.getId(),
-                driverDto.getName(),
-                driverDto.getSurname(),
-                driverDto.getPhoneNumber(),
-                driverDto.getEmail(),
-                driverDto.getCar());
+    public Driver mapToDriver(DriverDto driverDto){
+        return modelMapper.map(driverDto, Driver.class);
     }
 
-    public DriverDto mapToDriverDto(final Driver driver){
-        return new DriverDto(
-                driver.getId(),
-                driver.getName(),
-                driver.getSurname(),
-                driver.getPhoneNumber(),
-                driver.getEmail(),
-                driver.getStatus(),
-                driver.getCar());
+    public DriverDto mapToDriverDto(Driver driver){
+        return modelMapper.map(driver, DriverDto.class);
     }
 
     public List<DriverDto> mapToListDto(final List<Driver> drivers){

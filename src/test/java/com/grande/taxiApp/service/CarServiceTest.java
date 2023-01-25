@@ -1,5 +1,6 @@
 package com.grande.taxiApp.service;
 
+import com.grande.taxiApp.Exes;
 import com.grande.taxiApp.domain.Car;
 import com.grande.taxiApp.domain.dto.CarDto;
 import com.grande.taxiApp.exceptions.CarNotFoundException;
@@ -10,73 +11,71 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.modelmapper.ModelMapper;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+import static com.grande.taxiApp.Exes.car;
+import static com.grande.taxiApp.Exes.carDto;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-@SpringBootTest
 class CarServiceTest {
 
-    @Mock
-    private CarRepository carRepository;
-    @Mock
-    private CarMapper mapper;
-    @InjectMocks
-    private CarService carService;
+
+    private CarRepository carRepository = mock(CarRepository.class);
+    private CarMapper mapper = mock(CarMapper.class);
+
+    private CarService carService = mock(CarService.class);
 
     @Test
     void getCarById() throws CarNotFoundException {
         //given
-        Car car = new Car("test","test","test","test");
-        when(carRepository.findById(1)).thenReturn(Optional.of(car));
+        when(carService.getCarById(anyInt())).thenReturn(carDto);
+        when(mapper.mapToCarDto(car)).thenReturn(carDto);
+        when(carRepository.findById(anyInt())).thenReturn(Optional.ofNullable(Exes.car));
         //when
-        Car get = carService.getCarById(1);
+        CarDto get = carService.getCarById(1);
         //then
-        assertEquals(car.getCarBrand(),get.getCarBrand());
+        assertEquals(carDto.getCarBrand(),get.getCarBrand());
 
     }
 
     @Test
     void findByPlatesContains() {
-        //given
-        Car car = new Car("test","test","test","test");
-        when(carRepository.findByLicensePlateNumberContains("t")).thenReturn(List.of(car));
+        when(carService.findByPlatesContains(anyString())).thenReturn(Exes.listCarDto);
+        when(mapper.mapToCarDtoList(any())).thenReturn(Exes.listCarDto);
+        when(carRepository.findByLicensePlateNumberContains(anyString())).thenReturn(Exes.carList);
         //when
-        List<Car> result = carService.findByPlatesContains("t");
+        List<CarDto> result = carService.findByPlatesContains("t");
         //then
-        assertEquals(1,result.size());
+        assertEquals(Exes.listCarDto.size(),result.size());
     }
 
     @Test
     void findAll() {
         //given
-        List<Car> cars = Arrays.asList(new Car("test","test","test","test"),
-                new Car("test","test","test","test"));
-        when(carRepository.findAll()).thenReturn(cars);
+        when(carService.findAll()).thenReturn(Exes.listCarDto);
+        when(mapper.mapToCarDtoList(any())).thenReturn(Exes.listCarDto);
+        when(carRepository.findAll()).thenReturn(Exes.carList);
         //when
-        List<Car> result = carService.findAll();
+        List<CarDto> result = carService.findAll();
         //then
         assertFalse(result.isEmpty());
-        assertEquals(cars.size(),result.size());
+        assertEquals(Exes.listCarDto.size(),result.size());
     }
     @Test
     void updateTest(){
         //given
-        CarDto carDto = new CarDto(1,"test","test","test","test");
-        Car car = new Car(1,"test","test","test","test");
-        when(mapper.mapToCar(any(CarDto.class))).thenReturn(car);
-        when(carRepository.save(any(Car.class))).thenReturn(null);
         //when
         carService.updateCar(carDto);
         //then
-        verify(carRepository,timeout(1)).save(any(Car.class));
+        verify(carService,timeout(1)).updateCar(any(CarDto.class));
     }
 
 

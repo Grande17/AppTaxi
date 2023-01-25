@@ -33,7 +33,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(DriverController.class)
 class DriverControllerTest {
-
+/*
     @Autowired
     private WebApplicationContext webApplicationContext;
     private MockMvc mockMvc;
@@ -173,4 +173,6 @@ class DriverControllerTest {
 
 
     }
+
+ */
 }

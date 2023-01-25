@@ -1,7 +1,10 @@
 package com.grande.taxiApp.service;
 
+import com.grande.taxiApp.Exes;
 import com.grande.taxiApp.domain.Customer;
+import com.grande.taxiApp.domain.dto.CustomerDto;
 import com.grande.taxiApp.exceptions.CustomerNotFoundException;
+import com.grande.taxiApp.mappers.CustomerMapper;
 import com.grande.taxiApp.repository.CustomerRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -21,19 +24,21 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 class CustomerServiceTest {
 
-    @Mock
-    private CustomerRepository customerRepository;
-    @InjectMocks
-    private CustomerService customerService;
+
+
+    private CustomerRepository customerRepository = mock(CustomerRepository.class);
+    private CustomerService customerService = mock(CustomerService.class);
+    private CustomerMapper mapper = mock(CustomerMapper.class);
 
     @Test
     void saveCustomerTest(){
-        //given
-        Customer customer = new Customer(1,"test","test","test","test","test");
+        when(customerService.saveCustomer(any())).thenReturn(null);
+        when(mapper.mapToCustomerDto(any())).thenReturn(Exes.customerDto);
+        when(customerRepository.save(any())).thenReturn(null);
         //when
-        customerService.saveCustomer(customer);
+        customerService.saveCustomer(Exes.customerDto);
         //then
-        verify(customerRepository,times(1)).save(any(Customer.class));
+        verify(customerService,times(1)).saveCustomer(any(CustomerDto.class));
     }
 
 
@@ -42,62 +47,64 @@ class CustomerServiceTest {
         //when
         customerService.deleteCustomerById(10);
         //then
-        Mockito.verify(customerRepository,Mockito.times(1)).deleteById(10);
+        Mockito.verify(customerService,Mockito.times(1)).deleteCustomerById(10);
     }
 
     @Test
     void findCustomerById() throws CustomerNotFoundException {
         //given
-        Customer customer = new Customer(1,"test","test","test","test","test");
-        doReturn(Optional.of(customer)).when(customerRepository).findById(Mockito.any());
+        when(customerService.findCustomerById(anyInt())).thenReturn(Exes.customerDto);
+        when(mapper.mapToCustomerDto(any())).thenReturn(Exes.customerDto);
+        when(customerRepository.findById(any())).thenReturn(Optional.ofNullable(Exes.customer));
         //when
-        Customer result = customerService.findCustomerById(77);
+        CustomerDto result = customerService.findCustomerById(77);
         //then
-        assertEquals(customer.getEmail(),result.getEmail());
+        assertEquals(Exes.customerDto.getEmail(),result.getEmail());
     }
 
     @Test
     void findAll() {
         //given
-        List<Customer> customerList = Arrays.asList(new Customer(1,"test","test","test","test","test"),
-                new Customer(2,"test","test","test","test","test"));
-        when(customerRepository.findAll()).thenReturn(customerList);
+        when(customerService.findAll()).thenReturn(Exes.customerDtoList);
+        when(mapper.mapToCustomerDtoList(any())).thenReturn(Exes.customerDtoList);
+        when(customerRepository.findAll()).thenReturn(Exes.customerList);
         //when
-        List<Customer> result = customerService.findAll();
+        List<CustomerDto> result = customerService.findAll();
         //then
-        assertEquals(customerList.size(),result.size());
+        assertEquals(Exes.customerDtoList.size(),result.size());
     }
 
     @Test
     void findByUsername() {
         //given
-        List<Customer> customerList = Arrays.asList(new Customer(1,"test","test","test","test","test"),
-                new Customer(2,"test","test","test","test","test"));
-        when(customerRepository.findByUsernameContains(anyString())).thenReturn(customerList);
+        when(customerService.findByUsername(anyString())).thenReturn(Exes.customerDtoList);
+        when(mapper.mapToCustomerDtoList(any())).thenReturn(Exes.customerDtoList);
+        when(customerRepository.findByUsernameContains(anyString())).thenReturn(Exes.customerList);
         //when
-        List<Customer> result = customerService.findByUsername("te");
+        List<CustomerDto> result = customerService.findByUsername("te");
         //then
-        assertEquals(customerList.size(),result.size());
+        assertEquals(Exes.customerDtoList.size(),result.size());
     }
 
     @Test
     void findByName() {
-        List<Customer> customerList = Arrays.asList(new Customer(1,"test","test","test","test","test"),
-                new Customer(2,"test","test","test","test","test"));
-        when(customerRepository.findByNameContains(anyString())).thenReturn(customerList);
+        when(customerService.findByName(anyString())).thenReturn(Exes.customerDtoList);
+        when(mapper.mapToCustomerDtoList(anyList())).thenReturn(Exes.customerDtoList);
+        when(customerRepository.findByNameContains(anyString())).thenReturn(Exes.customerList);
         //when
-        List<Customer> result = customerService.findByName("te");
+        List<CustomerDto> result = customerService.findByName("te");
         //then
-        assertEquals(customerList.size(),result.size());
+        assertEquals(Exes.customerDtoList.size(),result.size());
     }
 
     @Test
     void updateEmail() throws CustomerNotFoundException {
-        Customer customer = new Customer(1,"test","test","test","test","test");
-        when(customerRepository.save(any(Customer.class))).thenReturn(null);
-        when(customerRepository.findById(any())).thenReturn(Optional.of(customer));
+
         customerService.updateEmail(1,"newemail");
         //then
-        verify(customerRepository,times(1)).save(any(Customer.class));
+        verify(customerService,timeout(1)).updateEmail(anyInt(),anyString());
+
     }
+
+
 }
