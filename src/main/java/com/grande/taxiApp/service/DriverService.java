@@ -25,7 +25,7 @@ public class DriverService {
     private final CarRepository carRepository;
     private final DriverMapper mapper;
 
-    public Driver saveDriver(final DriverDto driverDto) throws CarWithGivenPlatesException, EmailException {
+    public Driver saveDriver(DriverDto driverDto) throws CarWithGivenPlatesException, EmailException {
         if (verifyDriver(driverDto)){
             if (verifyCar(driverDto)){
                 Driver driver = mapper.mapToDriver(driverDto);
@@ -73,10 +73,10 @@ public class DriverService {
 
 
     }
-    private boolean verifyDriver(DriverDto driverDto){
+    protected boolean verifyDriver(DriverDto driverDto){
         return driverRepository.findByEmail(driverDto.getEmail()).isEmpty();
     }
-    private boolean verifyCar(DriverDto driverDto){
+    protected boolean verifyCar(DriverDto driverDto){
         return carRepository.findByLicensePlateNumber(driverDto.getCar().getLicensePlateNumber()).isEmpty();
     }
     public List<DriverDto> findBySurname(String contains){

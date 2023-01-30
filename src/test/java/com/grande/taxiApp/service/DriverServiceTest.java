@@ -1,5 +1,6 @@
 package com.grande.taxiApp.service;
 
+import com.grande.taxiApp.Exes;
 import com.grande.taxiApp.domain.Car;
 import com.grande.taxiApp.domain.Driver;
 import com.grande.taxiApp.domain.dto.DriverDto;
@@ -26,7 +27,7 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class DriverServiceTest {
-    /*
+
     @Mock
     private DriverRepository repository;
     @Mock
@@ -39,23 +40,27 @@ class DriverServiceTest {
     @Test
     void saveDriver() throws EmailException, CarWithGivenPlatesException {
         //given
-        DriverDto driver = new DriverDto(1,"test","test","test","test", DriverStatus.ACTIVE,
-                new Car(1,"test","test","test","test"));
+       when(service.saveDriver(Exes.driverDto)).thenReturn(Exes.driver);
+        when(repository.save(any())).thenReturn(null);
+       when(mapper.mapToDriver(Exes.driverDto)).thenReturn(Exes.driver);
+       when(carRepository.save(Exes.driver.getCar())).thenReturn(Exes.driver.getCar());
+       when(service.verifyCar(any(DriverDto.class))).thenReturn(true);
+       when(any(DriverDto.class).getCar()).thenReturn(Exes.car);
+       when(service.verifyDriver(any())).thenReturn(true);
         //when
-        service.saveDriver(driver);
+        service.saveDriver(Exes.driverDto);
         //then
         verify(repository,times(1)).save(any(Driver.class));
 
     }
 
     @Test
-    void updateDriver() {
+    void updateDriver() throws DriverNotFoundException {
         //given
-        DriverDto driver = new DriverDto(1,"test","test","test","test", DriverStatus.ACTIVE,
-                new Car(1,"test","test","test","test"));
+        when(service.findById(any())).thenReturn(Exes.driverDto);
         when(mapper.mapToDriver(any(DriverDto.class))).thenReturn(new Driver());
         //when
-        service.updateDriver(driver);
+        service.updateDriver(Exes.driverDto);
         //then
         verify(repository,times(1)).save(any(Driver.class));
     }
@@ -63,34 +68,28 @@ class DriverServiceTest {
     @Test
     void getAll() {
         //given
-        List<Driver> drivers = Arrays.asList(new Driver(1,"test","test","test","test", DriverStatus.ACTIVE,
-                new Car(1,"test","test","test","test")),
-                new Driver(2,"test","test","test","test", DriverStatus.ACTIVE,
-                        new Car(2,"test","test","test","test")));
-        when(repository.findAll()).thenReturn(drivers);
+        when(repository.findAll()).thenReturn(Exes.driversList);
         //when
-        List<Driver> result = service.getAll();
+        List<DriverDto> result = service.getAll();
         //then
         assertFalse(result.isEmpty());
-        assertEquals(drivers.size(),result.size());
+        assertEquals(Exes.driversDtoList.size(),result.size());
 
     }
 
     @Test
-    void findById() {
+    void findById() throws DriverNotFoundException {
         //given
-        Driver driver = new Driver(1,"test","test","test","test", DriverStatus.ACTIVE,
-                new Car(1,"test","test","test","test"));
-        when(repository.findById(any())).thenReturn(Optional.of(driver));
+        when(repository.findById(any())).thenReturn(Optional.of(Exes.driver));
         //when
-        Optional<Driver> result = service.findById(1);
+        Optional<DriverDto> result = Optional.ofNullable(service.findById(1));
         //then
-        assertEquals(result.get().getId(),driver.getId());
+        assertEquals(result.get().getId(),Exes.driverDto.getId());
 
     }
 
     @Test
-    void deleteDriverById() {
+    void deleteDriverById() throws DriverNotFoundException {
         //given
         when(repository.findById(any())).thenReturn(Optional.of(new Driver()));
         //when
@@ -102,39 +101,29 @@ class DriverServiceTest {
     @Test
     void findBySurname() {
         //given
-        List<Driver> drivers = Arrays.asList(new Driver(1,"test","test","test","test", DriverStatus.ACTIVE,
-                new Car(1,"test","test","test","test")),
-                new Driver(1,"test","test","test","test", DriverStatus.ACTIVE,
-                        new Car(1,"test","test","test","test")));
-        when(repository.findBySurnameContains(any())).thenReturn(drivers);
+        when(repository.findBySurnameContains(any())).thenReturn(Exes.driversList);
         //when
-        List<Driver> result = service.findBySurname("z");
+        List<DriverDto> result = service.findBySurname("z");
         //then
         assertFalse(result.isEmpty());
-        assertEquals(drivers.size(),result.size());
+        assertEquals(Exes.driversList.size(),result.size());
     }
 
     @Test
     void findByEmailContains() {
         //given
-        List<Driver> drivers = Arrays.asList(new Driver(1,"test","test","test","test", DriverStatus.ACTIVE,
-                        new Car(1,"test","test","test","test")),
-                new Driver(1,"test","test","test","test", DriverStatus.ACTIVE,
-                        new Car(1,"test","test","test","test")));
-        when(repository.findByEmailContains(any())).thenReturn(drivers);
+        when(repository.findByEmailContains(any())).thenReturn(Exes.driversList);
         //when
-        List<Driver> result = service.findByEmailContains("z");
+        List<DriverDto> result = service.findByEmailContains("z");
         //then
         assertFalse(result.isEmpty());
-        assertEquals(drivers.size(),result.size());
+        assertEquals(Exes.driversList.size(),result.size());
     }
 
     @Test
     void updateStatus() throws DriverNotFoundException {
         //given
-        Driver driver = new Driver(1,"test","test","test","test", DriverStatus.ACTIVE,
-                new Car(1,"test","test","test","test"));
-        when(repository.findById(any())).thenReturn(Optional.of(driver));
+        when(repository.findById(any())).thenReturn(Optional.of(Exes.driver));
         when(repository.save(any(Driver.class))).thenReturn(null);
         //when
         service.updateStatus(1,DriverStatus.BREAK.toString());
@@ -142,5 +131,5 @@ class DriverServiceTest {
         verify(repository,times(1)).save(any(Driver.class));
     }
 
-     */
+
 }
