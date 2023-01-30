@@ -10,6 +10,7 @@ import com.grande.taxiApp.enums.OrderTaxiStatus;
 import com.grande.taxiApp.exceptions.OrderTaxiNotFoundException;
 import com.grande.taxiApp.foreignApi.exchangeRates.CurrencyRepository;
 import com.grande.taxiApp.foreignApi.fuelPrice.FuelPriceRepository;
+import com.grande.taxiApp.mappers.OrderTaxiMapper;
 import com.grande.taxiApp.repository.DriverRepository;
 import com.grande.taxiApp.repository.OrderTaxiRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -30,13 +31,15 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class OrderTaxiServiceTest {
-/*
+
     @Mock
     private OrderTaxiRepository orderTaxiRepository;
     @Mock
     private FuelPriceRepository fuelPriceRepository;
     @Mock
     private CurrencyRepository currencyRepository;
+    @Mock
+    private OrderTaxiMapper mapper;
     @Mock
     private DriverRepository driverRepository;
     @InjectMocks
@@ -45,6 +48,7 @@ class OrderTaxiServiceTest {
     private Driver driver;
     private Customer customer;
     private OrderTaxi orderTaxi;
+    private OrderTaxiFullDto orderTaxiFullDto;
 
     @BeforeEach
     void setUp() {
@@ -52,6 +56,7 @@ class OrderTaxiServiceTest {
                 new Car(1,"test","test","test","test"));
         customer=new Customer(1,"test","test","test","test","test");
         orderTaxi = new OrderTaxi(1,"pickUp","drop",new BigDecimal(99.9), LocalTime.of(1,13),customer,driver);
+        orderTaxiFullDto = new OrderTaxiFullDto(1,"pickUp","drop",customer,new BigDecimal(99.9), LocalTime.of(1,13),OrderTaxiStatus.ACTIVE,driver);
     }
 
     @Test
@@ -78,7 +83,7 @@ class OrderTaxiServiceTest {
         //when
         OrderTaxiFullDto find = orderTaxiService.findById(1);
         //then
-        assertEquals(orderTaxi.getId(),find.get().getId());
+        assertEquals(orderTaxi.getId(),find.getId());
     }
 
     @Test
@@ -86,7 +91,7 @@ class OrderTaxiServiceTest {
         //given
         when(orderTaxiRepository.findAll()).thenReturn(List.of(orderTaxi));
         //when
-        List<OrderTaxi> all = orderTaxiService.findAll();
+        List<OrderTaxiFullDto> all = orderTaxiService.findAll();
         //then
         assertFalse(all.isEmpty());
         assertEquals(1,all.size());
@@ -97,7 +102,7 @@ class OrderTaxiServiceTest {
         //given
         when(orderTaxiRepository.findByCustomerId(any())).thenReturn(List.of(orderTaxi));
         //when
-        List<OrderTaxi> all =orderTaxiService.findByCustomerId(1);
+        List<OrderTaxiFullDto> all =orderTaxiService.findByCustomerId(1);
         //then
         assertFalse(all.isEmpty());
         assertEquals(1,all.size());
@@ -109,7 +114,7 @@ class OrderTaxiServiceTest {
         //given
         when(orderTaxiRepository.findByDriverId(any())).thenReturn(List.of(orderTaxi));
         //when
-        List<OrderTaxi> all =orderTaxiService.findByDriverId(1);
+        List<OrderTaxiFullDto> all =orderTaxiService.findByDriverId(1);
         //then
         assertFalse(all.isEmpty());
         assertEquals(1,all.size());
@@ -117,9 +122,9 @@ class OrderTaxiServiceTest {
 
 
     @Test
-    void cancelOrderFouCustomersOnly() {
+    void cancelOrderFouCustomersOnly() throws OrderTaxiNotFoundException {
         //given
-        when(orderTaxiService.findById(any())).thenReturn(Optional.ofNullable(orderTaxi));
+        when(orderTaxiService.findById(any())).thenReturn(orderTaxiFullDto);
         when(driverRepository.save(any(Driver.class))).thenReturn(null);
         when(orderTaxiRepository.save(any(OrderTaxi.class))).thenReturn(null);
         //when
@@ -145,11 +150,11 @@ class OrderTaxiServiceTest {
         //given
         when(orderTaxiRepository.findByStatus(any(OrderTaxiStatus.class))).thenReturn(List.of(orderTaxi));
         //when
-        List<OrderTaxi> orders = orderTaxiService.getByStatus(OrderTaxiStatus.ACTIVE);
+        List<OrderTaxiFullDto> orders = orderTaxiService.getByStatus(OrderTaxiStatus.ACTIVE);
         //then
         assertFalse(orders.isEmpty());
         assertEquals(1,orders.size());
     }
 
- */
+
 }
