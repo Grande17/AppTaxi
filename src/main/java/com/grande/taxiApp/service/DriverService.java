@@ -50,7 +50,8 @@ public class DriverService {
         List<Driver> collect = driverRepository.findAll().stream()
                 .filter(x -> !x.getStatus().equals(DriverStatus.ACCOUNT_DELETED))
                 .collect(Collectors.toList());
-        return mapper.mapToListDto(collect);
+        List<DriverDto> driverDtos = mapper.mapToListDto(collect);
+        return driverDtos;
 
     }
     public DriverDto findById(Integer id) throws DriverNotFoundException {

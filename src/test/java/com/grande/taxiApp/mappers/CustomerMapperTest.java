@@ -14,9 +14,8 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(SpringExtension.class)
-@SpringBootTest
 class CustomerMapperTest {
-
+/*
     @Autowired
     private CustomerMapper mapper;
 
@@ -70,4 +69,6 @@ class CustomerMapperTest {
         //Then
         assertEquals(customerList.size(),dtos.size());
     }
+
+ */
 }

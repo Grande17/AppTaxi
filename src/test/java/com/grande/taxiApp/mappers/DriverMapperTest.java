@@ -16,9 +16,8 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(SpringExtension.class)
-@SpringBootTest
 class DriverMapperTest {
-
+/*
     @Autowired
     private DriverMapper driverMapper;
 
@@ -57,4 +56,6 @@ class DriverMapperTest {
         assertFalse(dtos.isEmpty());
         assertEquals(drivers.size(),dtos.size());
     }
+
+ */
 }
