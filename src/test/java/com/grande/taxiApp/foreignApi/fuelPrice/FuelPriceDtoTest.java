@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @ExtendWith(SpringExtension.class)
 class FuelPriceDtoTest {
 
-     /*
+
     FuelPriceDto fuelPriceDto;
     @BeforeEach
     void setUp() {
@@ -35,5 +35,5 @@ class FuelPriceDtoTest {
         assertEquals(fuelPriceDto.getCountry(),get);
     }
 
-      */
+
 }

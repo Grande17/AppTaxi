@@ -55,7 +55,7 @@ public class ScheduledEvents implements CommandLineRunner {
         }
     }
 
-    @Scheduled(cron = "* 1 * * * *")
+   // @Scheduled(cron = "* 1 * * * *")
     public void updateFuelPrice() {
         FuelPriceListDto fuelPriceListDto = fuelPriceClient.getFuelPrice();
         FuelPriceDto fuelPriceDto = fuelPriceListDto.getList().stream()

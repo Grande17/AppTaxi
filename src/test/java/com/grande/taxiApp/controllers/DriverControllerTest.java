@@ -33,7 +33,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(DriverController.class)
 class DriverControllerTest {
-/*
+
     @Autowired
     private WebApplicationContext webApplicationContext;
     private MockMvc mockMvc;
@@ -71,7 +71,7 @@ class DriverControllerTest {
     @Test
     void getAll() throws Exception {
         when(mapper.mapToListDto(any())).thenReturn(List.of(driverDto));
-        when(service.getAll()).thenReturn(List.of(driver));
+        when(service.getAll()).thenReturn(List.of(driverDto));
 
         mockMvc.perform(get("/v1/drivers")
                 .contentType(MediaType.APPLICATION_JSON))
@@ -90,7 +90,7 @@ class DriverControllerTest {
     @Test
     void getById() throws Exception {
         when(mapper.mapToDriverDto(any())).thenReturn(driverDto);
-        when(service.findById(any())).thenReturn(Optional.ofNullable(driver));
+        when(service.findById(any())).thenReturn(driverDto);
 
         mockMvc.perform(get("/v1/drivers/1")
                 .contentType(MediaType.APPLICATION_JSON))
@@ -130,7 +130,7 @@ class DriverControllerTest {
     @Test
     void getByNameAndSurnameContains() throws Exception {
         when(mapper.mapToListDto(any())).thenReturn(List.of(driverDto));
-        when(service.findBySurname(any())).thenReturn(List.of(driver));
+        when(service.findBySurname(any())).thenReturn(List.of(driverDto));
 
         mockMvc.perform(get("/v1/drivers/name/test")
                 .contentType(MediaType.APPLICATION_JSON))
@@ -148,7 +148,7 @@ class DriverControllerTest {
     @Test
     void findByEmailContains() throws Exception {
         when(mapper.mapToListDto(any())).thenReturn(List.of(driverDto));
-        when(service.findByEmailContains(any())).thenReturn(List.of(driver));
+        when(service.findByEmailContains(any())).thenReturn(List.of(driverDto));
 
         mockMvc.perform(get("/v1/drivers/email/test")
                         .contentType(MediaType.APPLICATION_JSON))
@@ -174,5 +174,5 @@ class DriverControllerTest {
 
     }
 
- */
+
 }

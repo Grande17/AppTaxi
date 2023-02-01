@@ -8,11 +8,14 @@ It allows you to order a cab in the simplest possible way.
 ## Technologies Used
 
 * Java 17
-* Spring FrameWork
+* Spring
+* Spring Boot
 * Hibernate/Spring Data JPA
 * Gradle
 * JUnit/Jupiter
+* Mockito
 * MySQL
+* H2
 
 
 
@@ -144,7 +147,7 @@ PUT /v1/customers/email/{id}/{email}
 |:----------| :--- | :--- |
 | `id`      | `int` | **Required**.  |
 
-```http
+```
 DEL /v1/customer/{id}
 ```
 

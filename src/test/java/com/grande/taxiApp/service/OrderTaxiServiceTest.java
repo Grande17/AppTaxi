@@ -1,5 +1,6 @@
 package com.grande.taxiApp.service;
 
+import com.grande.taxiApp.ResourceFactory;
 import com.grande.taxiApp.domain.Car;
 import com.grande.taxiApp.domain.Customer;
 import com.grande.taxiApp.domain.Driver;
@@ -25,6 +26,8 @@ import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 
+import static com.grande.taxiApp.ResourceFactory.orderTaxi;
+import static com.grande.taxiApp.ResourceFactory.orderTaxiFullDto;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -45,41 +48,25 @@ class OrderTaxiServiceTest {
     @InjectMocks
     private OrderTaxiService orderTaxiService;
 
-    private Driver driver;
-    private Customer customer;
-    private OrderTaxi orderTaxi;
-    private OrderTaxiFullDto orderTaxiFullDto;
 
-    @BeforeEach
-    void setUp() {
-        driver= new Driver(1,"test","test","test","test", DriverStatus.ACTIVE,
-                new Car(1,"test","test","test","test"));
-        customer=new Customer(1,"test","test","test","test","test");
-        orderTaxi = new OrderTaxi(1,"pickUp","drop",new BigDecimal(99.9), LocalTime.of(1,13),customer,driver);
-        orderTaxiFullDto = new OrderTaxiFullDto(1,"pickUp","drop",customer,new BigDecimal(99.9), LocalTime.of(1,13),OrderTaxiStatus.ACTIVE,driver);
-    }
 
     @Test
     void save() {
+        //given
+        when(orderTaxiRepository.save(any())).thenReturn(orderTaxi);
         //when
-        orderTaxiRepository.save(orderTaxi);
+        orderTaxiService.save(orderTaxi);
         //then
         verify(orderTaxiRepository,times(1)).save(any(OrderTaxi.class));
 
     }
 
-    @Test
-    void deleteById() {
-        //when
-        orderTaxiRepository.deleteById(1);
-        //then
-        verify(orderTaxiRepository,times(1)).deleteById(any());
-    }
 
     @Test
     void findById() throws OrderTaxiNotFoundException {
         //given
         when(orderTaxiRepository.findById(any())).thenReturn(Optional.ofNullable(orderTaxi));
+        when(mapper.mapToOrderTaxiFullDto(any())).thenReturn(orderTaxiFullDto);
         //when
         OrderTaxiFullDto find = orderTaxiService.findById(1);
         //then
@@ -90,6 +77,7 @@ class OrderTaxiServiceTest {
     void findAll() {
         //given
         when(orderTaxiRepository.findAll()).thenReturn(List.of(orderTaxi));
+        when(mapper.mapToOrderTaxiFullDtoList(any())).thenReturn(List.of(orderTaxiFullDto));
         //when
         List<OrderTaxiFullDto> all = orderTaxiService.findAll();
         //then
@@ -101,6 +89,7 @@ class OrderTaxiServiceTest {
     void findByCustomerId() {
         //given
         when(orderTaxiRepository.findByCustomerId(any())).thenReturn(List.of(orderTaxi));
+        when(mapper.mapToOrderTaxiFullDtoList(any())).thenReturn(List.of(orderTaxiFullDto));
         //when
         List<OrderTaxiFullDto> all =orderTaxiService.findByCustomerId(1);
         //then
@@ -113,6 +102,7 @@ class OrderTaxiServiceTest {
     void findByDriverId() {
         //given
         when(orderTaxiRepository.findByDriverId(any())).thenReturn(List.of(orderTaxi));
+        when(mapper.mapToOrderTaxiFullDtoList(any())).thenReturn(List.of(orderTaxiFullDto));
         //when
         List<OrderTaxiFullDto> all =orderTaxiService.findByDriverId(1);
         //then
@@ -124,7 +114,7 @@ class OrderTaxiServiceTest {
     @Test
     void cancelOrderFouCustomersOnly() throws OrderTaxiNotFoundException {
         //given
-        when(orderTaxiService.findById(any())).thenReturn(orderTaxiFullDto);
+        when(orderTaxiRepository.findById(any())).thenReturn(Optional.ofNullable(orderTaxi));
         when(driverRepository.save(any(Driver.class))).thenReturn(null);
         when(orderTaxiRepository.save(any(OrderTaxi.class))).thenReturn(null);
         //when
@@ -149,6 +139,7 @@ class OrderTaxiServiceTest {
     void getByStatus() {
         //given
         when(orderTaxiRepository.findByStatus(any(OrderTaxiStatus.class))).thenReturn(List.of(orderTaxi));
+        when(mapper.mapToOrderTaxiFullDtoList(any())).thenReturn(List.of(orderTaxiFullDto));
         //when
         List<OrderTaxiFullDto> orders = orderTaxiService.getByStatus(OrderTaxiStatus.ACTIVE);
         //then

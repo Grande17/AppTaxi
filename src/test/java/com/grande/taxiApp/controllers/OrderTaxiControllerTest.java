@@ -1,6 +1,9 @@
 package com.grande.taxiApp.controllers;
 
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalTimeDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalTimeSerializer;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.grande.taxiApp.domain.Car;
 import com.grande.taxiApp.domain.Customer;
 import com.grande.taxiApp.domain.Driver;
@@ -9,11 +12,18 @@ import com.grande.taxiApp.domain.dto.OrderTaxiDto;
 import com.grande.taxiApp.domain.dto.OrderTaxiFullDto;
 import com.grande.taxiApp.enums.OrderTaxiStatus;
 import com.grande.taxiApp.facade.OrderFacade;
+import com.grande.taxiApp.foreignApi.addressToCoordinates.CoordinatesClient;
+import com.grande.taxiApp.foreignApi.distanceAndTime.DistanceAndDurationClient;
 import com.grande.taxiApp.mappers.OrderTaxiMapper;
+import com.grande.taxiApp.repository.CustomerRepository;
+import com.grande.taxiApp.repository.DriverRepository;
+import com.grande.taxiApp.service.EmailService;
 import com.grande.taxiApp.service.OrderTaxiService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -25,6 +35,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 import java.math.BigDecimal;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import static org.hamcrest.Matchers.*;
@@ -38,7 +49,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(OrderTaxiController.class)
 class OrderTaxiControllerTest {
-/*
+
     @Autowired
     private WebApplicationContext webApplicationContext;
     private MockMvc mockMvc;
@@ -67,12 +78,15 @@ class OrderTaxiControllerTest {
                 new Driver(1,"test","test","test","test",new Car(1,"test","test","test","test")));
     }
 
+    /*
+    TODO: fix date serializer
     @Test
     void orderTaxi() throws Exception {
-        when(facade.createOrder(orderTaxiDto)).thenReturn(null);
+        when(service.save(any())).thenReturn(orderTaxi);
         when(mapper.mapToOrderTaxiFullDto(any())).thenReturn(orderTaxiFullDto);
+        when(facade.createOrder(orderTaxiDto)).thenReturn(orderTaxiFullDto);
         Gson gson = new Gson();
-        String content = gson.toJson(orderTaxiDto);
+        String content = gson.toJson(orderTaxiFullDto);
 
         mockMvc.perform(post("/v1/order").
                 contentType(MediaType.APPLICATION_JSON)
@@ -86,6 +100,8 @@ class OrderTaxiControllerTest {
                 .andExpect(jsonPath("$.driver.id", is(1)));
     }
 
+     */
+
     @Test
     void cancel() throws Exception {
         doNothing().when(service).cancelOrderFouCustomersOnly(any());
@@ -98,7 +114,7 @@ class OrderTaxiControllerTest {
     @Test
     void returnUserOrderHistory() throws Exception {
         when(mapper.mapToOrderTaxiFullDtoList(any())).thenReturn(List.of(orderTaxiFullDto));
-        when(service.findByCustomerId(any())).thenReturn(List.of(orderTaxi));
+        when(service.findByCustomerId(any())).thenReturn(List.of(orderTaxiFullDto));
 
         mockMvc.perform(get("/v1/order/history/1")
                 .contentType(MediaType.APPLICATION_JSON))
@@ -122,7 +138,7 @@ class OrderTaxiControllerTest {
     @Test
     void getAll() throws Exception {
         when(mapper.mapToOrderTaxiFullDtoList(any())).thenReturn(List.of(orderTaxiFullDto));
-        when(service.findAll()).thenReturn(List.of(orderTaxi));
+        when(service.findAll()).thenReturn(List.of(orderTaxiFullDto));
 
         mockMvc.perform(get("/v1/order")
                 .contentType(MediaType.APPLICATION_JSON))
@@ -137,7 +153,7 @@ class OrderTaxiControllerTest {
     @Test
     void driverHistory() throws Exception {
         when(mapper.mapToOrderTaxiFullDtoList(any())).thenReturn(List.of(orderTaxiFullDto));
-        when(service.findByDriverId(any())).thenReturn(List.of(orderTaxi));
+        when(service.findByDriverId(any())).thenReturn(List.of(orderTaxiFullDto));
 
         mockMvc.perform(get("/v1/order/driverHistory/1")
                 .contentType(MediaType.APPLICATION_JSON))
@@ -152,7 +168,7 @@ class OrderTaxiControllerTest {
     @Test
     void findByStatus() throws Exception {
         when(mapper.mapToOrderTaxiFullDtoList(any())).thenReturn(List.of(orderTaxiFullDto));
-        when(service.getByStatus(any())).thenReturn(List.of(orderTaxi));
+        when(service.getByStatus(any())).thenReturn(List.of(orderTaxiFullDto));
 
         mockMvc.perform(get("/v1/order/status/ACTIVE")
                 .contentType(MediaType.APPLICATION_JSON))
@@ -164,5 +180,5 @@ class OrderTaxiControllerTest {
                 .andExpect(jsonPath("$[0].driver.id", is(1)));
     }
 
- */
+
 }

@@ -1,25 +1,19 @@
 package com.grande.taxiApp.service;
 
-import com.grande.taxiApp.Exes;
-import com.grande.taxiApp.domain.Car;
+import com.grande.taxiApp.ResourceFactory;
 import com.grande.taxiApp.domain.dto.CarDto;
 import com.grande.taxiApp.exceptions.CarNotFoundException;
 import com.grande.taxiApp.mappers.CarMapper;
 import com.grande.taxiApp.repository.CarRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.modelmapper.ModelMapper;
-import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import static com.grande.taxiApp.Exes.car;
-import static com.grande.taxiApp.Exes.carDto;
+import static com.grande.taxiApp.ResourceFactory.car;
+import static com.grande.taxiApp.ResourceFactory.carDto;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -38,7 +32,7 @@ class CarServiceTest {
         //given
         when(carService.getCarById(anyInt())).thenReturn(carDto);
         when(mapper.mapToCarDto(car)).thenReturn(carDto);
-        when(carRepository.findById(anyInt())).thenReturn(Optional.ofNullable(Exes.car));
+        when(carRepository.findById(anyInt())).thenReturn(Optional.ofNullable(ResourceFactory.car));
         //when
         CarDto get = carService.getCarById(1);
         //then
@@ -48,26 +42,26 @@ class CarServiceTest {
 
     @Test
     void findByPlatesContains() {
-        when(carService.findByPlatesContains(anyString())).thenReturn(Exes.listCarDto);
-        when(mapper.mapToCarDtoList(any())).thenReturn(Exes.listCarDto);
-        when(carRepository.findByLicensePlateNumberContains(anyString())).thenReturn(Exes.carList);
+        when(carService.findByPlatesContains(anyString())).thenReturn(ResourceFactory.listCarDto);
+        when(mapper.mapToCarDtoList(any())).thenReturn(ResourceFactory.listCarDto);
+        when(carRepository.findByLicensePlateNumberContains(anyString())).thenReturn(ResourceFactory.carList);
         //when
         List<CarDto> result = carService.findByPlatesContains("t");
         //then
-        assertEquals(Exes.listCarDto.size(),result.size());
+        assertEquals(ResourceFactory.listCarDto.size(),result.size());
     }
 
     @Test
     void findAll() {
         //given
-        when(carService.findAll()).thenReturn(Exes.listCarDto);
-        when(mapper.mapToCarDtoList(any())).thenReturn(Exes.listCarDto);
-        when(carRepository.findAll()).thenReturn(Exes.carList);
+        when(carService.findAll()).thenReturn(ResourceFactory.listCarDto);
+        when(mapper.mapToCarDtoList(any())).thenReturn(ResourceFactory.listCarDto);
+        when(carRepository.findAll()).thenReturn(ResourceFactory.carList);
         //when
         List<CarDto> result = carService.findAll();
         //then
         assertFalse(result.isEmpty());
-        assertEquals(Exes.listCarDto.size(),result.size());
+        assertEquals(ResourceFactory.listCarDto.size(),result.size());
     }
     @Test
     void updateTest(){

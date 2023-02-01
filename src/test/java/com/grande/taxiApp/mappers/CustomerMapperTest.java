@@ -4,29 +4,33 @@ import com.grande.taxiApp.domain.Customer;
 import com.grande.taxiApp.domain.dto.CustomerDto;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.modelmapper.ModelMapper;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.Arrays;
 import java.util.List;
 
+import static com.grande.taxiApp.ResourceFactory.*;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
 class CustomerMapperTest {
-/*
-    @Autowired
+
+    @Mock
+    private ModelMapper modelMapper;
+    @InjectMocks
     private CustomerMapper mapper;
 
     @Test
     void mapToCustomer() {
         //Given
-        CustomerDto customerDto = new CustomerDto(1,"name","surname","username","000999888","email");
+        when(modelMapper.map(customerDto,Customer.class)).thenReturn(customer);
         //When
         Customer customer = mapper.mapToCustomer(customerDto);
         //Then
-        assertEquals(customerDto.getId(),customer.getId());
         assertEquals(customerDto.getName(),customer.getName());
         assertEquals(customerDto.getSurname(),customer.getSurname());
         assertEquals(customerDto.getUsername(),customerDto.getUsername());
@@ -37,16 +41,10 @@ class CustomerMapperTest {
     @Test
     void mapToCustomerDto() {
         //Given
-        Customer customer = new Customer.Builder()
-                .name("Test")
-                .surname("Test")
-                .username("Test")
-                .phoneNumber("000999888")
-                .email("test@email.com").build();
+        when(modelMapper.map(customer, CustomerDto.class)).thenReturn(customerDto);
         //When
         CustomerDto customerDto = mapper.mapToCustomerDto(customer);
         //Then
-        assertEquals(customer.getId(),customerDto.getId());
         assertEquals(customer.getName(),customerDto.getName());
         assertEquals(customer.getSurname(),customerDto.getSurname());
         assertEquals(customer.getUsername(),customerDto.getUsername());
@@ -70,5 +68,5 @@ class CustomerMapperTest {
         assertEquals(customerList.size(),dtos.size());
     }
 
- */
+
 }

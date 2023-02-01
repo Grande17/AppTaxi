@@ -18,6 +18,6 @@ public class DriverDto {
     private String surname;
     private String phoneNumber;
     private String email;
-    private DriverStatus status;
+    private DriverStatus status = DriverStatus.ACTIVE;
     private Car car;
 }
