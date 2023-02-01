@@ -39,6 +39,8 @@ git clone https://github.com/Grande17/AppTaxi.git
   
 
 ## Customer Controller
+<details>
+<summary>Endpoints</summary>
 
 ### Create new customer
 ```
@@ -150,8 +152,14 @@ PUT /v1/customers/email/{id}/{email}
 ```
 DEL /v1/customer/{id}
 ```
+</details>
 
 ## Driver Controller
+
+<details>
+
+<summary>Endpoints</summary>
+
 
 ### POST
 
@@ -297,9 +305,12 @@ PUT /v1/drivers/status/{id}/{status}
 ```
 DEL /v1/drivers/{idd}
 ```
+</details>
 
 ## Car Controller
+<details>
 
+<summary>Endpoints</summary>
 
 ### GET
 
@@ -359,8 +370,13 @@ GET /v1/cars/plates/{plates}
 ```
 PUT /v1/cars/
 ```
+</details>
 
 ## Order controller
+
+<details>
+
+<summary>Endpoints</summary>
 
 ### POST
 
@@ -478,3 +494,5 @@ PUT /v1/order/{orderId}/{status}
 ```
 PUT /v1/order/cancel/{orderId}
 ```
+
+</details>
