@@ -3,15 +3,20 @@ package com.grande.taxiApp;
 import com.grande.taxiApp.domain.Car;
 import com.grande.taxiApp.domain.Customer;
 import com.grande.taxiApp.domain.Driver;
+import com.grande.taxiApp.domain.OrderTaxi;
 import com.grande.taxiApp.domain.dto.CarDto;
 import com.grande.taxiApp.domain.dto.CustomerDto;
 import com.grande.taxiApp.domain.dto.DriverDto;
+import com.grande.taxiApp.domain.dto.OrderTaxiFullDto;
 import com.grande.taxiApp.enums.DriverStatus;
+import com.grande.taxiApp.enums.OrderTaxiStatus;
 
+import java.math.BigDecimal;
+import java.time.LocalTime;
 import java.util.Arrays;
 import java.util.List;
 
-public class Exes {
+public class ResourceFactory {
 
     public static CarDto carDto = new CarDto(1,"test","test","test","test");
     public static Car car = new Car("test","test","test","test");
@@ -47,4 +52,8 @@ public class Exes {
                     new Car(1,"test","test","test","test")),
             new Driver(2,"test","test","test","test", DriverStatus.ACTIVE,
                     new Car(2,"test","test","test","test")));
+    public static OrderTaxi orderTaxi = new OrderTaxi(1,"pickUp","drop",
+            new BigDecimal(99.9), LocalTime.of(1,13),customer,driver);
+    public static OrderTaxiFullDto orderTaxiFullDto = new OrderTaxiFullDto(1,"pickUp","drop",customer,
+            new BigDecimal(99.9), LocalTime.of(1,13), OrderTaxiStatus.ACTIVE,driver);
 }

@@ -34,7 +34,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(CarController.class)
 class CarControllerTest {
-/*
+
     @Autowired
     private WebApplicationContext webApplicationContext;
     private MockMvc mockMvc;
@@ -76,6 +76,7 @@ class CarControllerTest {
     @Test
     void getAll() throws Exception {
         when(carMapper.mapToCarDtoList(any())).thenReturn(List.of(carDto));
+        when(carService.findAll()).thenReturn(List.of(carDto));
 
 
         mockMvc.perform(get("/v1/cars")
@@ -92,7 +93,7 @@ class CarControllerTest {
     @Test
     void getCarByPlates() throws Exception {
         when(carMapper.mapToCarDtoList(any())).thenReturn(List.of(carDto));
-        when(carService.findByPlatesContains(any())).thenReturn(List.of(car));
+        when(carService.findByPlatesContains(any())).thenReturn(List.of(carDto));
 
         mockMvc.perform(get("/v1/cars/plates/test")
                 .contentType(MediaType.APPLICATION_JSON))
@@ -107,7 +108,7 @@ class CarControllerTest {
     @Test
     void findCarById() throws Exception {
         when(carMapper.mapToCarDto(any(Car.class))).thenReturn(carDto);
-        when(carService.getCarById(any())).thenReturn(car);
+        when(carService.getCarById(any())).thenReturn(carDto);
 
         mockMvc.perform(get("/v1/cars/1")
                 .contentType(MediaType.APPLICATION_JSON))
@@ -119,5 +120,5 @@ class CarControllerTest {
 
     }
 
- */
+
 }

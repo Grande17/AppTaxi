@@ -4,6 +4,10 @@ import com.grande.taxiApp.domain.Car;
 import com.grande.taxiApp.domain.dto.CarDto;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -11,36 +15,40 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import java.util.Arrays;
 import java.util.List;
 
+import static com.grande.taxiApp.ResourceFactory.car;
+import static com.grande.taxiApp.ResourceFactory.carDto;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(SpringExtension.class)
 class CarMapperTest {
-/*
-    @Autowired
+
+    @Mock
+    private ModelMapper modelMapper;
+    @InjectMocks
     private CarMapper mapper;
 
     @Test
     void mapToCar() {
         //Given
-        CarDto carDto = new CarDto(1,"Audi","A4","Kombi","WWE12345");
+        when(modelMapper.map(carDto,Car.class)).thenReturn(car);
         //When
         Car result = mapper.mapToCar(carDto);
         //Then
-        assertEquals(1, result.getId());
-        assertEquals("Audi",result.getCarBrand());
-        assertEquals("A4",result.getModel());
-        assertEquals("Kombi",result.getBodyType());
-        assertEquals("WWE12345",result.getLicensePlateNumber());
+
+        assertEquals(car.getCarBrand(),result.getCarBrand());
+        assertEquals(car.getModel(),result.getModel());
+        assertEquals(car.getBodyType(),result.getBodyType());
+        assertEquals(car.getLicensePlateNumber(),result.getLicensePlateNumber());
     }
 
     @Test
     void mapToCarDto() {
         //Given
-        Car car = new Car("Audi","A4","Kombi","WWE12345");
+        when(modelMapper.map(car,CarDto.class)).thenReturn(carDto);
         //When
         CarDto carDto = mapper.mapToCarDto(car);
         //Then
-        assertEquals(car.getId(),carDto.getId());
         assertEquals(car.getCarBrand(),carDto.getCarBrand());
         assertEquals(car.getModel(),carDto.getModel());
         assertEquals(car.getBodyType(),carDto.getBodyType());
@@ -61,7 +69,7 @@ class CarMapperTest {
         assertEquals(cars.size(),dtos.size());
     }
 
- */
+
 
 
 }

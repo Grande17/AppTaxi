@@ -1,7 +1,6 @@
 package com.grande.taxiApp.service;
 
-import com.grande.taxiApp.Exes;
-import com.grande.taxiApp.domain.Car;
+import com.grande.taxiApp.ResourceFactory;
 import com.grande.taxiApp.domain.Driver;
 import com.grande.taxiApp.domain.dto.DriverDto;
 import com.grande.taxiApp.enums.DriverStatus;
@@ -17,7 +16,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -40,15 +38,10 @@ class DriverServiceTest {
     @Test
     void saveDriver() throws EmailException, CarWithGivenPlatesException {
         //given
-       when(service.saveDriver(Exes.driverDto)).thenReturn(Exes.driver);
-        when(repository.save(any())).thenReturn(null);
-       when(mapper.mapToDriver(Exes.driverDto)).thenReturn(Exes.driver);
-       when(carRepository.save(Exes.driver.getCar())).thenReturn(Exes.driver.getCar());
-       when(service.verifyCar(any(DriverDto.class))).thenReturn(true);
-       when(any(DriverDto.class).getCar()).thenReturn(Exes.car);
-       when(service.verifyDriver(any())).thenReturn(true);
+        when(mapper.mapToDriver(any())).thenReturn(ResourceFactory.driver);
+        when(repository.save(any())).thenReturn(ResourceFactory.driver);
         //when
-        service.saveDriver(Exes.driverDto);
+        service.saveDriver(ResourceFactory.driverDto);
         //then
         verify(repository,times(1)).save(any(Driver.class));
 
@@ -57,10 +50,10 @@ class DriverServiceTest {
     @Test
     void updateDriver() throws DriverNotFoundException {
         //given
-        when(service.findById(any())).thenReturn(Exes.driverDto);
+        when(repository.findById(any())).thenReturn(Optional.ofNullable(ResourceFactory.driver));
         when(mapper.mapToDriver(any(DriverDto.class))).thenReturn(new Driver());
         //when
-        service.updateDriver(Exes.driverDto);
+        service.updateDriver(ResourceFactory.driverDto);
         //then
         verify(repository,times(1)).save(any(Driver.class));
     }
@@ -68,23 +61,25 @@ class DriverServiceTest {
     @Test
     void getAll() {
         //given
-        when(repository.findAll()).thenReturn(Exes.driversList);
+        when(repository.findAll()).thenReturn(ResourceFactory.driversList);
+        when(mapper.mapToListDto(any())).thenReturn(ResourceFactory.driversDtoList);
         //when
         List<DriverDto> result = service.getAll();
         //then
         assertFalse(result.isEmpty());
-        assertEquals(Exes.driversDtoList.size(),result.size());
+        assertEquals(ResourceFactory.driversDtoList.size(),result.size());
 
     }
 
     @Test
     void findById() throws DriverNotFoundException {
         //given
-        when(repository.findById(any())).thenReturn(Optional.of(Exes.driver));
+        when(repository.findById(any())).thenReturn(Optional.of(ResourceFactory.driver));
+        when(mapper.mapToDriverDto(any())).thenReturn(ResourceFactory.driverDto);
         //when
         Optional<DriverDto> result = Optional.ofNullable(service.findById(1));
         //then
-        assertEquals(result.get().getId(),Exes.driverDto.getId());
+        assertEquals(result.get().getId(), ResourceFactory.driverDto.getId());
 
     }
 
@@ -101,29 +96,31 @@ class DriverServiceTest {
     @Test
     void findBySurname() {
         //given
-        when(repository.findBySurnameContains(any())).thenReturn(Exes.driversList);
+        when(repository.findBySurnameContains(any())).thenReturn(ResourceFactory.driversList);
+        when(mapper.mapToListDto(any())).thenReturn(ResourceFactory.driversDtoList);
         //when
         List<DriverDto> result = service.findBySurname("z");
         //then
         assertFalse(result.isEmpty());
-        assertEquals(Exes.driversList.size(),result.size());
+        assertEquals(ResourceFactory.driversList.size(),result.size());
     }
 
     @Test
     void findByEmailContains() {
         //given
-        when(repository.findByEmailContains(any())).thenReturn(Exes.driversList);
+        when(repository.findByEmailContains(any())).thenReturn(ResourceFactory.driversList);
+        when(mapper.mapToListDto(any())).thenReturn(ResourceFactory.driversDtoList);
         //when
         List<DriverDto> result = service.findByEmailContains("z");
         //then
         assertFalse(result.isEmpty());
-        assertEquals(Exes.driversList.size(),result.size());
+        assertEquals(ResourceFactory.driversList.size(),result.size());
     }
 
     @Test
     void updateStatus() throws DriverNotFoundException {
         //given
-        when(repository.findById(any())).thenReturn(Optional.of(Exes.driver));
+        when(repository.findById(any())).thenReturn(Optional.of(ResourceFactory.driver));
         when(repository.save(any(Driver.class))).thenReturn(null);
         //when
         service.updateStatus(1,DriverStatus.BREAK.toString());

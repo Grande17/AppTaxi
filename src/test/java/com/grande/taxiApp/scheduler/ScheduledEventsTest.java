@@ -25,7 +25,7 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(SpringExtension.class)
 class ScheduledEventsTest {
-    /*
+
     @Mock
     private CurrencyExchangeClient currencyExchangeClient;
     @Mock
@@ -63,5 +63,5 @@ class ScheduledEventsTest {
 
     }
 
-     */
+
 }

@@ -1,19 +1,15 @@
 package com.grande.taxiApp.service;
 
-import com.grande.taxiApp.Exes;
-import com.grande.taxiApp.domain.Customer;
+import com.grande.taxiApp.ResourceFactory;
 import com.grande.taxiApp.domain.dto.CustomerDto;
 import com.grande.taxiApp.exceptions.CustomerNotFoundException;
 import com.grande.taxiApp.mappers.CustomerMapper;
 import com.grande.taxiApp.repository.CustomerRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,10 +29,10 @@ class CustomerServiceTest {
     @Test
     void saveCustomerTest(){
         when(customerService.saveCustomer(any())).thenReturn(null);
-        when(mapper.mapToCustomerDto(any())).thenReturn(Exes.customerDto);
+        when(mapper.mapToCustomerDto(any())).thenReturn(ResourceFactory.customerDto);
         when(customerRepository.save(any())).thenReturn(null);
         //when
-        customerService.saveCustomer(Exes.customerDto);
+        customerService.saveCustomer(ResourceFactory.customerDto);
         //then
         verify(customerService,times(1)).saveCustomer(any(CustomerDto.class));
     }
@@ -53,48 +49,48 @@ class CustomerServiceTest {
     @Test
     void findCustomerById() throws CustomerNotFoundException {
         //given
-        when(customerService.findCustomerById(anyInt())).thenReturn(Exes.customerDto);
-        when(mapper.mapToCustomerDto(any())).thenReturn(Exes.customerDto);
-        when(customerRepository.findById(any())).thenReturn(Optional.ofNullable(Exes.customer));
+        when(customerService.findCustomerById(anyInt())).thenReturn(ResourceFactory.customerDto);
+        when(mapper.mapToCustomerDto(any())).thenReturn(ResourceFactory.customerDto);
+        when(customerRepository.findById(any())).thenReturn(Optional.ofNullable(ResourceFactory.customer));
         //when
         CustomerDto result = customerService.findCustomerById(77);
         //then
-        assertEquals(Exes.customerDto.getEmail(),result.getEmail());
+        assertEquals(ResourceFactory.customerDto.getEmail(),result.getEmail());
     }
 
     @Test
     void findAll() {
         //given
-        when(customerService.findAll()).thenReturn(Exes.customerDtoList);
-        when(mapper.mapToCustomerDtoList(any())).thenReturn(Exes.customerDtoList);
-        when(customerRepository.findAll()).thenReturn(Exes.customerList);
+        when(customerService.findAll()).thenReturn(ResourceFactory.customerDtoList);
+        when(mapper.mapToCustomerDtoList(any())).thenReturn(ResourceFactory.customerDtoList);
+        when(customerRepository.findAll()).thenReturn(ResourceFactory.customerList);
         //when
         List<CustomerDto> result = customerService.findAll();
         //then
-        assertEquals(Exes.customerDtoList.size(),result.size());
+        assertEquals(ResourceFactory.customerDtoList.size(),result.size());
     }
 
     @Test
     void findByUsername() {
         //given
-        when(customerService.findByUsername(anyString())).thenReturn(Exes.customerDtoList);
-        when(mapper.mapToCustomerDtoList(any())).thenReturn(Exes.customerDtoList);
-        when(customerRepository.findByUsernameContains(anyString())).thenReturn(Exes.customerList);
+        when(customerService.findByUsername(anyString())).thenReturn(ResourceFactory.customerDtoList);
+        when(mapper.mapToCustomerDtoList(any())).thenReturn(ResourceFactory.customerDtoList);
+        when(customerRepository.findByUsernameContains(anyString())).thenReturn(ResourceFactory.customerList);
         //when
         List<CustomerDto> result = customerService.findByUsername("te");
         //then
-        assertEquals(Exes.customerDtoList.size(),result.size());
+        assertEquals(ResourceFactory.customerDtoList.size(),result.size());
     }
 
     @Test
     void findByName() {
-        when(customerService.findByName(anyString())).thenReturn(Exes.customerDtoList);
-        when(mapper.mapToCustomerDtoList(anyList())).thenReturn(Exes.customerDtoList);
-        when(customerRepository.findByNameContains(anyString())).thenReturn(Exes.customerList);
+        when(customerService.findByName(anyString())).thenReturn(ResourceFactory.customerDtoList);
+        when(mapper.mapToCustomerDtoList(anyList())).thenReturn(ResourceFactory.customerDtoList);
+        when(customerRepository.findByNameContains(anyString())).thenReturn(ResourceFactory.customerList);
         //when
         List<CustomerDto> result = customerService.findByName("te");
         //then
-        assertEquals(Exes.customerDtoList.size(),result.size());
+        assertEquals(ResourceFactory.customerDtoList.size(),result.size());
     }
 
     @Test

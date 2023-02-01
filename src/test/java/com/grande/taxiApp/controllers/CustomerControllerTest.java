@@ -28,7 +28,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(CustomerController.class)
 class CustomerControllerTest {
-/*
+
     @Autowired
     private WebApplicationContext webApplicationContext;
     private MockMvc mockMvc;
@@ -50,7 +50,7 @@ class CustomerControllerTest {
     @Test
     void createNewCustomerAcc() throws Exception {
         when(mapper.mapToCustomer(customerDto)).thenReturn(customer);
-        when(service.saveCustomer(customer)).thenReturn(null);
+        when(service.saveCustomer(customerDto)).thenReturn(null);
         Gson gson = new Gson();
         String content = gson.toJson(customerDto);
 
@@ -65,7 +65,7 @@ class CustomerControllerTest {
     @Test
     void updateCustomer() throws Exception {
         when(mapper.mapToCustomer(customerDto)).thenReturn(customer);
-        when(service.saveCustomer(customer)).thenReturn(null);
+        when(service.saveCustomer(customerDto)).thenReturn(null);
         Gson gson = new Gson();
         String content = gson.toJson(customerDto);
 
@@ -79,7 +79,7 @@ class CustomerControllerTest {
     @Test
     void getCustomerById() throws Exception {
         when(mapper.mapToCustomerDto(customer)).thenReturn(customerDto);
-        when(service.findCustomerById(any())).thenReturn(customer);
+        when(service.findCustomerById(any())).thenReturn(customerDto);
 
         mockMvc.perform(get("/v1/customers/1")
                 .contentType(MediaType.APPLICATION_JSON))
@@ -95,7 +95,7 @@ class CustomerControllerTest {
     @Test
     void getAll() throws Exception {
         when(mapper.mapToCustomerDtoList(any())).thenReturn(List.of(customerDto));
-        when(service.findAll()).thenReturn(List.of(customer));
+        when(service.findAll()).thenReturn(List.of(customerDto));
 
         mockMvc.perform(get("/v1/customers")
                 .contentType(MediaType.APPLICATION_JSON))
@@ -119,7 +119,7 @@ class CustomerControllerTest {
     @Test
     void getByContains() throws Exception {
         when(mapper.mapToCustomerDtoList(any())).thenReturn(List.of(customerDto));
-        when(service.findByUsername(any())).thenReturn(List.of(customer));
+        when(service.findByUsername(any())).thenReturn(List.of(customerDto));
 
         mockMvc.perform(get("/v1/customers/username/test")
                 .contentType(MediaType.APPLICATION_JSON))
@@ -135,7 +135,7 @@ class CustomerControllerTest {
     @Test
     void getByName() throws Exception {
         when(mapper.mapToCustomerDtoList(any())).thenReturn(List.of(customerDto));
-        when(service.findByName(any())).thenReturn(List.of(customer));
+        when(service.findByName(any())).thenReturn(List.of(customerDto));
 
         mockMvc.perform(get("/v1/customers/name/test")
                         .contentType(MediaType.APPLICATION_JSON))
@@ -157,5 +157,5 @@ class CustomerControllerTest {
                 .andExpect(status().isOk());
     }
 
- */
+
 }
