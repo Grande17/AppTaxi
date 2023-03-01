@@ -1,13 +1,11 @@
 package com.grande.taxiApp.controllers;
 
-import com.grande.taxiApp.domain.OrderTaxi;
 import com.grande.taxiApp.domain.dto.OrderTaxiDto;
 import com.grande.taxiApp.domain.dto.OrderTaxiFullDto;
 import com.grande.taxiApp.enums.OrderTaxiStatus;
 import com.grande.taxiApp.exceptions.NumberOfActiveOrdersException;
 import com.grande.taxiApp.exceptions.OrderTaxiNotFoundException;
 import com.grande.taxiApp.facade.OrderFacade;
-import com.grande.taxiApp.mappers.OrderTaxiMapper;
 import com.grande.taxiApp.service.OrderTaxiService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;

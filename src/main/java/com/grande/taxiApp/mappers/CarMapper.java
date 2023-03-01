@@ -25,7 +25,7 @@ public class CarMapper {
     public List<CarDto> mapToCarDtoList(final List<Car> cars){
         return cars.stream()
                 .map(this::mapToCarDto)
-                .collect(Collectors.toList());
+                .toList();
     }
 
 }

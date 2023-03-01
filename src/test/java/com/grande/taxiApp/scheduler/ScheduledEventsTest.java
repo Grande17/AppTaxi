@@ -50,7 +50,7 @@ class ScheduledEventsTest {
     }
 
     @Test
-    void updateFuelPrice() {
+    void updateFuelPrice() throws Exception {
         FuelPriceDto fuelPriceDto = new FuelPriceDto("test","1.65","Poland");
         FuelPriceListDto fuelPriceListDto = new FuelPriceListDto(List.of(fuelPriceDto));
 

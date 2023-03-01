@@ -2,9 +2,10 @@ package com.grande.taxiApp.config;
 
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
-@Service
+
+@Component
 @Getter
 public class AdminConfig {
 

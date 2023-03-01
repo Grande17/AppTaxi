@@ -25,6 +25,6 @@ public class DriverMapper {
     public List<DriverDto> mapToListDto(final List<Driver> drivers){
         return drivers.stream()
                 .map(this::mapToDriverDto)
-                .collect(Collectors.toList());
+                .toList();
     }
 }

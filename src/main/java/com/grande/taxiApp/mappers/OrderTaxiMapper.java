@@ -31,6 +31,6 @@ public class OrderTaxiMapper {
     public List<OrderTaxiFullDto> mapToOrderTaxiFullDtoList(final List<OrderTaxi> orderTaxis){
         return orderTaxis.stream()
                 .map(this::mapToOrderTaxiFullDto)
-                .collect(Collectors.toList());
+                .toList();
     }
 }

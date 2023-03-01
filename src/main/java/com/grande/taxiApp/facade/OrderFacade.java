@@ -42,7 +42,7 @@ public class OrderFacade {
     private Random random = new Random();
 
 
-    public OrderTaxiFullDto createOrder(OrderTaxiDto orderTaxiDto) throws NumberOfActiveOrdersException {
+    public OrderTaxiFullDto createOrder(OrderTaxiDto orderTaxiDto) throws Exception {
         log.info("Process of creating new order started");
         Optional<Customer> customer = customerRepository.findById(orderTaxiDto.getCustomer().getId());
         if (customer.isPresent()){
@@ -55,8 +55,13 @@ public class OrderFacade {
                 CoordinatesDto dropPlace = coordinatesClient.getCoordinates(orderTaxiDto.getDropPlace());
                 DistanceAndDurationDto data = distanceAndDurationClient.getData(pickUpPlace, dropPlace);
 
+                
+                if(data.getDistance().stream().findFirst().isEmpty()){
+                    throw new Exception("Couldn't set distance");
+                }else if(data.getDurationInSeconds().stream().findFirst().isEmpty()){
+                    throw new Exception("Couldn't set estimated duration");
+                }
                 List<Long> distance = data.getDistance().stream().findFirst().get();
-
                 List<Long> duration = data.getDurationInSeconds().stream().findFirst().get();
                 BigDecimal tripCost = (orderTaxiService.countTripPrice(distance.get(0) / 1000)).multiply(BigDecimal.valueOf(customer.get().getDiscount()))
                         .setScale(2, RoundingMode.CEILING);

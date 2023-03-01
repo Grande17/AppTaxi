@@ -1,9 +1,7 @@
 package com.grande.taxiApp.controllers;
 
-import com.grande.taxiApp.domain.Car;
 import com.grande.taxiApp.domain.dto.CarDto;
 import com.grande.taxiApp.exceptions.CarNotFoundException;
-import com.grande.taxiApp.mappers.CarMapper;
 import com.grande.taxiApp.service.CarService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

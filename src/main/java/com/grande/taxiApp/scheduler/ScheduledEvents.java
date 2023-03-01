@@ -56,11 +56,14 @@ public class ScheduledEvents implements CommandLineRunner {
     }
 
    // @Scheduled(cron = "* 1 * * * *")
-    public void updateFuelPrice() {
+    public void updateFuelPrice() throws Exception {
         FuelPriceListDto fuelPriceListDto = fuelPriceClient.getFuelPrice();
         FuelPriceDto fuelPriceDto = fuelPriceListDto.getList().stream()
                 .filter(x -> x.getCountry().equalsIgnoreCase(POLAND))
                 .findFirst().get();
+        if (Optional.of(fuelPriceDto).isEmpty()){
+            throw new Exception("FuelPriceDto is empty");
+        }
         Optional<FuelPrice> price = fuelPriceRepository.findFuelPriceByCountry(POLAND);
         BigDecimal value = new BigDecimal(fuelPriceDto.getPrice().replace(",", "."));
         if (price.isEmpty()) {

@@ -20,14 +20,14 @@ public class FuelPriceClient {
 
     private final RestTemplate restTemplate;
 
-    public static final String auth = "authorization";
+    public static final String AUTH = "authorization";
 
 
     public FuelPriceListDto getFuelPrice(){
         log.info("Connecting to FuelPriceAPI");
         RequestEntity<Void> request = RequestEntity.get(fuelAPI)
                 .accept(MediaType.APPLICATION_JSON)
-                .header(auth,apiKey)
+                .header(AUTH,apiKey)
                 .build();
         ResponseEntity<FuelPriceListDto> response = restTemplate.exchange(request,FuelPriceListDto.class);
         return response.getBody();

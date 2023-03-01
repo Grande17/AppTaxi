@@ -1,6 +1,5 @@
 package com.grande.taxiApp.service;
 
-import com.grande.taxiApp.domain.Car;
 import com.grande.taxiApp.domain.Driver;
 import com.grande.taxiApp.domain.dto.DriverDto;
 import com.grande.taxiApp.enums.DriverStatus;
@@ -49,7 +48,7 @@ public class DriverService {
     public List<DriverDto> getAll(){
         List<Driver> collect = driverRepository.findAll().stream()
                 .filter(x -> !x.getStatus().equals(DriverStatus.ACCOUNT_DELETED))
-                .collect(Collectors.toList());
+                .toList();
         List<DriverDto> driverDtos = mapper.mapToListDto(collect);
         return driverDtos;
 
@@ -87,7 +86,7 @@ public class DriverService {
         List<Driver> byEmailContains = driverRepository.findByEmailContains(email);
         return mapper.mapToListDto(byEmailContains);
     }
-    public Driver updateStatus(Integer id, String status) throws DriverNotFoundException {
+    public Driver updateStatus(Integer id, String status) throws Exception {
         Optional<Driver> byId = driverRepository.findById(id);
         if (byId.isPresent()){
 
@@ -104,6 +103,7 @@ public class DriverService {
                 case "INACTIVE":
                     byId.get().setStatus(DriverStatus.INACTIVE);
                     break;
+                default: throw new Exception("Invalid status");
             }
             return driverRepository.save(byId.get());
         }else{

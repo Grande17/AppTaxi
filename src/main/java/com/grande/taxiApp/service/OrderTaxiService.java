@@ -2,7 +2,6 @@ package com.grande.taxiApp.service;
 
 import com.grande.taxiApp.domain.Driver;
 import com.grande.taxiApp.domain.OrderTaxi;
-import com.grande.taxiApp.domain.dto.OrderTaxiDto;
 import com.grande.taxiApp.domain.dto.OrderTaxiFullDto;
 import com.grande.taxiApp.enums.DriverStatus;
 import com.grande.taxiApp.enums.OrderTaxiStatus;
@@ -53,7 +52,12 @@ public class OrderTaxiService {
         List<OrderTaxi> byDriverId = orderTaxiRepository.findByDriverId(id);
         return mapper.mapToOrderTaxiFullDtoList(byDriverId);
     }
-    public BigDecimal countTripPrice(Long distance){
+    public BigDecimal countTripPrice(Long distance) throws Exception {
+        if (Optional.of(fuelPriceRepository.findFuelPriceByCountry("Poland").get().getPrice()).isEmpty()){
+            throw new Exception("Fuel price is unknown");
+        }else if (Optional.of(currencyRepository.findByCurrency("euro").get().getPrice()).isEmpty()){
+            throw new Exception("Current currency rates are unkonown");
+        }
         BigDecimal fuelPrice = fuelPriceRepository.findFuelPriceByCountry("Poland").get().getPrice();
 
         BigDecimal euroRate = currencyRepository.findByCurrency("euro").get().getPrice();

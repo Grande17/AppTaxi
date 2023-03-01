@@ -10,6 +10,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.Optional;
+
 @Slf4j
 @Component
 @RequiredArgsConstructor
@@ -28,7 +30,7 @@ public class CoordinatesClient {
     @Value("${addressToCoordinates.key_value}")
     private String keyValue;
 
-    public CoordinatesDto getCoordinates(String address){
+    public CoordinatesDto getCoordinates(String address) throws Exception {
         try {
             log.info("Connecting to CoordinatesAPI");
             RequestEntity<Void> request = RequestEntity.get(api + address)
@@ -37,8 +39,13 @@ public class CoordinatesClient {
                     .header(key, keyValue)
                     .build();
             ResponseEntity<CoordinatesListDto> response = restTemplate.exchange(request, CoordinatesListDto.class);
+            if (Optional.of(response).isEmpty()){
+                throw new Exception("Response is empty");
+            }else {
 
-            return response.getBody().getAllCoordinates().stream().findFirst().get();
+
+                return response.getBody().getAllCoordinates().stream().findFirst().get();
+            }
         }catch (RestClientException e){
             log.error("Error while connection to CoordinatesAPI: "+e.getMessage());
         }
