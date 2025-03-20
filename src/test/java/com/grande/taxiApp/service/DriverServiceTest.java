@@ -118,7 +118,7 @@ class DriverServiceTest {
     }
 
     @Test
-    void updateStatus() throws DriverNotFoundException {
+    void updateStatus() throws Exception {
         //given
         when(repository.findById(any())).thenReturn(Optional.of(ResourceFactory.driver));
         when(repository.save(any(Driver.class))).thenReturn(null);

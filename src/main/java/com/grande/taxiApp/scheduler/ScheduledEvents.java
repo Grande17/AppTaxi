@@ -48,14 +48,14 @@ public class ScheduledEvents implements CommandLineRunner {
         BigDecimal value = currencyDto.getRates().get(0).getValue();
         Optional<CurrencyRates> euro = currencyRepository.findByCurrency(EURO);
         if (euro.isEmpty()) {
-            CurrencyRates currencyRates = new CurrencyRates(currencyDto.getCurrency(), value);
+            CurrencyRates currencyRates = new CurrencyRates(currencyDto.getCurrency(), new BigDecimal("4.5"));
             currencyRepository.save(currencyRates);
         } else {
-            euro.get().setPrice(value);
+            euro.get().setPrice(new BigDecimal("4.5"));
         }
     }
 
-   // @Scheduled(cron = "* 1 * * * *")
+    @Scheduled(cron = "* 1 * * * *")
     public void updateFuelPrice() throws Exception {
         FuelPriceListDto fuelPriceListDto = fuelPriceClient.getFuelPrice();
         FuelPriceDto fuelPriceDto = fuelPriceListDto.getList().stream()
@@ -70,11 +70,11 @@ public class ScheduledEvents implements CommandLineRunner {
             FuelPrice fuelPrice = new FuelPrice(
                     fuelPriceDto.getCurrency(),
                     fuelPriceDto.getCountry(),
-                    value,
+                    new BigDecimal("4.5"),
                     LocalDateTime.now());
             fuelPriceRepository.save(fuelPrice);
         } else {
-            price.get().setPrice(value);
+            price.get().setPrice(new BigDecimal("4.5"));
         }
     }
 

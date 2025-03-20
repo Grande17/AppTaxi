@@ -26,7 +26,7 @@ public class OrderTaxiController {
     private final OrderFacade facade;
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public OrderTaxiFullDto orderTaxi(@RequestBody @Valid OrderTaxiDto orderTaxiDto) throws NumberOfActiveOrdersException {
+    public OrderTaxiFullDto orderTaxi(@RequestBody @Valid OrderTaxiDto orderTaxiDto) throws Exception {
         return facade.createOrder(orderTaxiDto);
 
     }

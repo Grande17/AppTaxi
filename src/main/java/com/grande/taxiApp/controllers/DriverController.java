@@ -55,7 +55,7 @@ public class DriverController {
         return ResponseEntity.ok(driverService.findByEmailContains(email));
     }
     @PutMapping(value = "/status/{id}/{status}")
-    public ResponseEntity<Void> updateStatus(@PathVariable Integer id, @PathVariable String status) throws DriverNotFoundException {
+    public ResponseEntity<Void> updateStatus(@PathVariable Integer id, @PathVariable String status) throws Exception {
         driverService.updateStatus(id,status);
         return ResponseEntity.ok().build();
     }
